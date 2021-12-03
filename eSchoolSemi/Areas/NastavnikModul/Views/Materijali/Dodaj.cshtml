@@ -1,0 +1,74 @@
+﻿@model eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.MaterijaliDodajVM
+@{
+    ViewData["Title"] = "Dodaj";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+
+@*<form asp-action="Snimi" asp-controller="Materijali" method="post">
+        <div>
+            <label>Naslov</label>
+            <input type="text" asp-for="Naslov" name="Naslov" value="" />
+            <input type="number" asp-for="NastavnikID" name="NastavnikID" value="@Model.NastavnikID" hidden />
+        </div>
+        <div>
+            <label>Predmet</label>
+            <select asp-for="PredmetID" asp-items="@Model.Predmeti"></select>
+        </div>
+        <div>
+            <label>Sadrzaj</label>
+            <textarea style="border:solid thin; width:100%; height:200px" asp-for="Sadrzaj"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+    </form>*@
+<h1>Materijali</h1>
+<form asp-action="Snimi" asp-controller="Materijali" enctype="multipart/form-data" method="post">
+    <div class="form-group">
+        <label>Upload</label>
+        <input type="file" asp-for="FileURL" accept=".pdf,.docx,.pptx" />
+        <a></a>
+    </div>
+    <div class="form-group">
+        <label>Naslov</label>
+        <input class="form-control" type="text" asp-for="Naslov" name="Naslov" value="" />
+        <input type="number" asp-for="NastavnikID" name="NastavnikID" value="@Model.NastavnikID" hidden />
+    </div>
+    <div class="form-group">
+        <label>Predmet</label>
+        <select class="form-control" asp-for="PredmetID" asp-items="@Model.Predmeti"></select>
+    </div>
+    @*<div>
+            <label>Sadrzaj</label>
+            <textarea style="border:solid thin; width:100%; height:200px" asp-for="Sadrzaj"></textarea>
+        </div>*@
+    <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+</form>
+
+@*<h2>Upload</h2>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btnUploadFile').on('click', function () {
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
+                // Add the uploaded image content to the form data collection
+                if (files.length > 0) {
+                    data.append("UploadedImage", files[0]);
+                }
+                // Make Ajax request with the contentType = false, and procesDate = false
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "Materijali/Snimi",
+                    contentType: false,
+                    processData: false,
+                    data: data
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    // Do other operation
+                });
+            });
+        });
+    </script>
+    <input type="file" name="FileUpload1" id="fileUpload" /><br />
+    <input id="btnUploadFile" type="button" class="btn btn-primary" value="Snimi" />
+    @Html.ActionLink("Ostali Downloadi", "Index")*@

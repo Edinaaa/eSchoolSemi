@@ -1,0 +1,159 @@
+﻿@model eSchoolSemi.Web.Helper.PaginatedList<Ucenik>
+@{
+    ViewData["Title"] = "Index";
+
+
+
+    var ucenik = new UcenikDodajVM();
+
+    ucenik.DatumRodjenja = new DateTime(DateTime.Now.Year - 14, DateTime.Now.Month, DateTime.Now.Day);
+    ucenik = ViewBag.Gradovi;
+
+
+
+}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+
+<div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="form-group">
+                <div class="col-sm-5 verti">
+
+                    <input type="text" class="form-control" id="ucenikValue" placeholder="Pornadji ucenika" />
+                </div>
+                <div class="col-sm-3">
+
+                    <button id="dugmeID" class="btn btn-info">Pronadji</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-2">
+
+            <button type="button" class="btn btn-info" data-toggle="ajax-modal-test23" data-target="#ucenikDodajM" data-url="@Url.Action("DodajUcenika","Ucenik")">Dodaj ucenika</button>
+           
+
+        </div>
+
+
+
+
+    </div>
+</div>
+
+<br />
+
+<div id="test" data-table="ajaxDiv"></div>
+<div id="modalPlaceholder"></div>
+
+<script>
+
+    $(document).ready(function (parametars) {
+
+        $.ajax({
+            url: "@Url.Action("_tabela", "Ucenik")", async: false, success: function (result) {
+                $("#test").html(result);
+            }
+        });
+
+
+
+
+
+
+    });
+
+
+    $(function () {
+
+        $('button[data-toggle="ajax-modal-test23"]').click(function (event) {
+
+
+
+            event.preventDefault();
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalPlaceholder');
+
+            //$.get(url).done(function (data) {
+
+            //    placeholder.html(data);
+            //    placeholder.find('.modal').modal('show');
+            //});
+
+            $.get({
+                url: url, async: false, success: function (result) {
+                    
+                    placeholder.html(result);
+                    placeholder.find('.modal').modal('show');
+                }
+            });
+        });
+    });
+
+
+
+    $("#ucenikValue").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "@Url.Action("nazivUcenika", "Ucenik")",
+                type: "POST",
+                dataType: "json",
+                data: { Prefix: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.text, value: item.text };
+                    }))
+
+                }
+            })
+        }, error: function (xhr, status, error) {
+            alert("Error");
+        },
+        minLength: 2
+    });
+
+
+
+
+
+    $("#dugmeID").click(function (parametars) {
+
+        var searchString = $("#ucenikValue").val();
+
+
+
+
+        $.ajax({
+            url:"/AdministratorModul/Ucenik/_tabela/?searchString=" +searchString,async:false, success: function (result){
+
+                $("#test").html(result);
+            }
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+</script>

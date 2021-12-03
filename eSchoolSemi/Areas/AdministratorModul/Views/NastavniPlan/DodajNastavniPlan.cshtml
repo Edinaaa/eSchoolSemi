@@ -1,0 +1,114 @@
+﻿@model NastavniPlanDodajVM
+
+@{
+    var Godina = "";
+    var GodinaID = "";
+    @foreach (var item in Model.GodinaStudiranja)
+    {
+        Godina = item.Text;
+        GodinaID = item.Value;
+    }
+
+}
+
+
+<div class="modal fade" id="dodajPlan" tabindex="-1" role="dialog" aria-labelledby="dodajNastavnikLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="dodajNastavnikLabel">Dodaj nastavni plan!</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form asp-action="DodajNastavniPlan" method="post" class="col-md-push-2 col-md-8">
+
+                        <input asp-for="GodinaStudiranjaId" type="hidden" value="@GodinaID" class="form-control" readonly />
+
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="Naziv"></label>
+                                <input asp-for="Naziv" type="text" class="form-control" />
+                                <span asp-validation-for="Naziv" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="GodinaStudiranja">Godina studiranja</label>
+                                <input asp-for="GodinaStudiranja" type="text" value="@Godina" class="form-control" readonly />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="Razred"></label>
+                                <select asp-for="RazredId" asp-items="@Model.Razred" class="form-control"></select>
+                                <span asp-validation-for="RazredId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("Index", "NastavniPlan")">Save</button>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    $(document).ready(function (parametars) {
+
+        $('button[data-save="modal"]').click(function (event) {
+
+
+            event.preventDefault();
+            var form = $(this).parents('.modal').find('form');
+            form.validate();
+            var nesto = form.valid();
+            var actionUrl = form.attr("action");
+            var url = $(this).attr('data-url');
+            var modalID = $(".modal").attr('id');
+
+
+
+
+
+            var dataToSend = new FormData(form.get(0));
+
+            if (nesto) {
+                $.ajax({ url: actionUrl, method: 'post', data: dataToSend, processData: false, contentType: false }).
+                    done(function (data) {
+                        var newBody = $('.modal-body', data);
+                        $("#" + modalID).find('.modal-body').replaceWith(newBody);
+
+
+
+                        if (newBody.find('[name="IsValid"]').val() !== "False") {
+
+                            $('.modal').modal('hide');
+                            window.location = url;
+                        }
+
+                    });
+            }
+
+
+
+
+        });
+
+    });
+</script>

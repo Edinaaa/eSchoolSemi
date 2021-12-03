@@ -1,0 +1,36 @@
+﻿@model NastavniPlanProgramNastavnikVM
+@{
+    ViewData["Title"] = "Nastavnik";
+}
+
+
+
+
+<table class="table table-bordered">
+
+    <tr>
+        <td><b>Ime i prezime</b></td>
+        <td>@Model.ImePrezime</td>
+    </tr>
+
+    <tr>
+        <td><b>Titula</b></td>
+        <td>@Model.Titula</td>
+    </tr>
+    <tr>
+        <td><b>Zvanje</b></td>
+        <td>@Model.Zvanje</td>
+    </tr>
+    <tr>
+        <td><b>Datum zaposlenja</b></td>
+        <td>@Model.DatumZaposlenja</td>
+    </tr>
+    <tr>
+        <td><b>Predaje predmet</b></td>
+        <td>@Model.PredajePredmet</td>
+    </tr>
+    <tr>
+        <td><b>Razrednik odjeljenju</b></td>
+        <td>@Model.OdjeljenjeRazredik</td>
+    </tr>
+</table>

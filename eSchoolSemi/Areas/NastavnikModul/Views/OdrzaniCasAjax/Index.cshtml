@@ -1,0 +1,78 @@
+﻿@model eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.OdrzaniCasDetaljiEditVM
+@{
+    ViewData["Title"] = "Index";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+<script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+<form asp-action="Snimi" asp-controller="OdrzaniCasAjax" method="post">
+    <input asp-for="OdrzanCasDetaljiId" value="@Model.OdrzanCasDetaljiId" hidden />
+    <div class="form-group">
+        <label>Ucenik</label>
+        <input asp-for="@Model.Ucenik" value="@Model.Ucenik" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Ocjena</label>
+        <input id="Ocjena" asp-for="Ocjena" type="number" value="@Model.Ocjena" class="form-control" min="0" max="5" />
+    </div>
+
+    <div class="form-group">
+        <label>Odsutan</label>
+        <input id="Odsutan" class="form-check-input" asp-for="Odsutan" type="checkbox" />
+    </div>
+
+    <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#Odsutan").on("change", function () {
+            if (this.checked) {
+                $("#Ocjena").attr("disabled", true);
+            } else {
+                $("#Ocjena").removeAttr("disabled");
+            }
+        });
+    });
+</script>
+@*<form asp-action="Snimi" asp-controller="Nastavnik" method="post">
+        <input asp-for="OdjeljenjeID" value="@Model.OdjeljenjeID" hidden />
+        <div>
+            <label>Datum</label>
+            <input type="datetime" asp-for="DatumOdrzavanja" value="@Model.DatumOdrzavanja" />
+        </div>
+        <div>
+            <label>Predmet</label>
+            <select asp-for="PredmetID" asp-items="@Model.Predmeti"></select>
+        </div>
+        <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+    </form>*@
+
+
+
+
+@*<form asp-action="Snimi" asp-controller="OdrzaniCasAjax" method="post">
+        <input asp-for="OdrzanCasDetaljiId" value="@Model.OdrzanCasDetaljiId" hidden />
+        <div class="form-group">
+            <label>Ucenik</label>
+            <input asp-for="@Model.Ucenik" value="@Model.Ucenik" class="form-control" readonly/>
+        </div>
+        @if (Model.Odsutan)
+        {
+
+        }
+        else
+        {
+            <div class="form-group">
+                <label>Ocjena</label>
+                <input id="Ocjena" asp-for="Ocjena" type="number" value="@Model.Ocjena" class="form-control" min="0" max="5" />
+            </div>
+        }
+        <div class="form-group">
+            <label>Odsutan</label>
+            <input id="Odsutan" class="form-check-input" asp-for="Odsutan" type="checkbox" name="Odsutan" />
+        </div>
+
+        <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+    </form>*@

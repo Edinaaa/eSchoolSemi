@@ -1,0 +1,37 @@
+﻿@model SastanakDodajVM
+@{
+    ViewData["Title"] = "Dodaj";
+}
+
+<form action="/RoditeljModul/Sastanak/Snimi" method="post">
+    <div class="form-group">
+        <label>DatumObjave</label>
+        <input type="text" name="DatumObjave" class="form-control" value="@Model.DatumObjave" />
+    </div>
+    <div class="form-group">
+        <label>DatumSastanka</label>
+        <input type="text" name="DatumSastanka" class="form-control" value="@Model.DatumSastanka" />
+    </div>
+    <div class="form-group">
+        <label>Naziv</label>
+        <input type="text" name="Naziv" class="form-control" value="@Model.Naziv" />
+    </div>
+    <div class="form-group">
+        <label>Opis</label>
+        <input type="text" name="Opis" class="form-control" value="@Model.Opis" />
+    </div>
+    <div class="form-group">
+        <label>Komentar</label>
+        <input type="text" name="Komentar" class="form-control" value="@Model.Komentar" />
+    </div>
+    <div class="form-group">
+        <label>Ucenici</label>
+        <select asp-for="UcenikId" asp-items="@Model.Ucenici" class="form-control">
+            <option>(Odaberite ucenika)</option>
+        </select>
+ 
+    </div>
+    <input type="text" name="RoditeljID" class="form-control"  value="@Model.RoditeljID"  style="display: none"/>
+    <button type="submit" value="Snimi" class="btn btn-primary" name="Snimi">Snimi</button>
+</form>
+

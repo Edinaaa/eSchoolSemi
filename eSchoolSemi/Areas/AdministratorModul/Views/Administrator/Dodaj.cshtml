@@ -1,0 +1,114 @@
+﻿@model AdministratorDodajVM
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+
+<div class="modal fade" id="dodajAdministratora" tabindex="-1" role="dialog" aria-labelledby="dodajOdljenjeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title text-center" id="dodajOdljenjeLabel">Dodaj administratora</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <form asp-action="Snimi" method="post">
+
+                            <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <label asp-for="Ime"></label>
+                                    <input asp-for="Ime" class="form-control" />
+                                    <span asp-validation-for="Ime" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Prezime">Prezime:</label>
+                                    <input asp-for="Prezime" class="form-control" />
+                                    <span asp-validation-for="Prezime" class="text-danger"></span>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label asp-for="Username">Username:</label>
+                                    <input asp-for="Username" class="form-control" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Password">Password:</label>
+                                    <input asp-for="Password" class="form-control" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("Index", "Administrator")">Save</button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function (parametars) {
+
+        $('button[data-save="modal"]').click(function (event) {
+
+
+            event.preventDefault();
+            var form = $(this).parents('.modal').find('form');
+            var nesto = form.valid();
+            var actionUrl = form.attr("action");
+            var url = $(this).attr('data-url');
+            var modalID = $(".modal").attr('id');
+           
+
+
+
+
+            var dataToSend = new FormData(form.get(0));
+
+            if (nesto) {
+                $.ajax({ url: actionUrl, method: 'post', data: dataToSend, processData: false, contentType: false }).
+                    done(function (data) {
+                        var newBody = $('.modal-body', data);
+                        $("#" + modalID).find('.modal-body').replaceWith(newBody);
+
+
+
+                        if (newBody.find('[name="IsValid"]').val() !== "False") {
+
+                            $('.modal').modal('hide');
+                            window.location = url;
+
+                        }
+
+                    });
+            }
+
+
+
+
+        });
+
+    });
+</script>

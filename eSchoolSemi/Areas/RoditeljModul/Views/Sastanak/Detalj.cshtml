@@ -1,0 +1,39 @@
+﻿@model SastanakDetaljiVM;
+@{
+    ViewData["Title"] = "Detalj";
+}
+
+
+
+
+<table class="table table-bordered">
+
+    <tr>
+        <td><b>Odjeljenje</b></td>
+        <td>@Model.Odjeljenje</td>
+    </tr>
+    <tr>
+        <td><b>Datum objave</b></td>
+        <td>@Model.DatumObjave</td>
+    </tr>
+    <tr>
+        <td><b>Datum sastanka</b></td>
+        <td>@Model.DatumSastanka</td>
+    </tr>
+    <tr>
+        <td><b>Naziv</b></td>
+        <td>@Model.Naziv</td>
+    </tr>
+    <tr>
+        <td><b>Opis</b></td>
+        <td>@Model.Opis</td>
+    </tr>
+    <tr>
+        <td><b>Tip sastanka</b></td>
+        <td>@Model.TipSastanka</td>
+    </tr>
+</table>
+
+<a href="/RoditeljModul/Sastanak/Obrisi?SastanakId=@Model.SastanakId" class="btn btn-warning">Obrisi</a>
+<a href="/RoditeljModul/Sastanak/Uredi?SastanakId=@Model.SastanakId" class="btn btn-info">Uredi</a>
+<a href="/RoditeljModul/Sastanak/Index" class="btn btn-success">Nazad</a>

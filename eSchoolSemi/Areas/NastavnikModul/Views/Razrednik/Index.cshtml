@@ -1,0 +1,30 @@
+﻿@model List<eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.OdjeljenjeVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Razrednik</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Odjeljenje</th>
+            <th>Godina</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Oznaka</td>
+                <td>@item.Godina</td>
+                <td>
+                    <a class="btn btn-primary" href="/NastavnikModul/Razrednik/Casovi?OdjeljenjeID=@item.OdjeljenjeID">Casovi</a>
+                    <a class="btn btn-primary" href="/NastavnikModul/Razrednik/Vladanje?OdjeljenjeID=@item.OdjeljenjeID">Vladanje</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

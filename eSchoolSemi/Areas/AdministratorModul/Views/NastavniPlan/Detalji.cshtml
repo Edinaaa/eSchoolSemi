@@ -1,0 +1,80 @@
+﻿@model ListaPredmetaNastavniPlanVM
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<h2 class="text-center">@Model.Naziv</h2>
+
+
+
+<button type="button" title="Dodaj" class="btn btn-default" data-toggle="ajax-modal-test6" data-target="#dodajPlan"
+        data-url="@Url.Action("DodajPredmetUProgram","NastavniPlan",new {id=Model.NastavniPlanId })" style="margin-bottom:15px">
+    Dodaj predmet!
+</button>
+
+
+@if (Model.GodinaStudijaId != 1 && Model.prebacen==false)
+{
+<a data-url="@Url.Action("Prebaci", "NastavniPlan", new { NastavniPlanId = Model.NastavniPlanId })" data-prebaci="npp" class="btn btn-default"  style="margin-bottom:15px" >Prebaci</a>
+}
+<table  class="table table-bordered">
+   <thead>
+       <tr>
+           <th>Naziv predmeta</th>
+           <th>Broj casova</th>
+           <th>Nastavnik</th>
+           <th>Akcija</th>
+       </tr>
+   </thead>
+
+   <tbody>
+       @foreach (var item in Model.Angazovani)
+    {
+        if (item != null)
+         {
+    
+           <tr>
+               <td>@item.NazivPredmeta</td>
+               <td>@item.BrojCasova</td>
+               <td>@item.NazivNastavnika</td>
+               <td><a asp-action="ObrisiPredmet" asp-route-id="@item.AngazovanID" class="btn btn-info"> Obrisi angazman</a></td>
+           </tr>
+         }
+
+}
+   </tbody>
+</table>
+
+<div id="modalDiv">
+
+</div>
+
+<script>
+
+    $(function () {
+
+        $('button[data-toggle="ajax-modal-test6"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalDiv');
+
+            $.ajax({
+                url: url, async: false, success: function (result) {
+                    placeholder.html(result);
+                    placeholder.find('.modal').modal('show');
+                }
+            });
+
+        });
+    });
+
+    $("[data-prebaci='npp']").click(function (parametars) {
+        var actionUrl = $(this).attr('data-url');
+        var provjera = confirm("Da li ste sigurni da zelite prebaciti nastavni plan i program od prosle godine u ovaj program?")
+        if (provjera) {
+
+            window.location = actionUrl;
+        }
+
+    });
+</script>

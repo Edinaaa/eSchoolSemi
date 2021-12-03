@@ -1,0 +1,48 @@
+﻿@model eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.OdrzaniCasEditVM
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <h1 style="float:left; width:100px; position:relative">@Model.Odjeljenje</h1>
+    <h2 style="float:right; width:100px; position:relative">@Model.Predmet</h2>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ime i Prezime</th>
+            <th>Broj u Dnevniku</th>
+            <th>Odsutan</th>
+            <th>Opravdano</th>
+            <th>Ocjena</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OdrzaniCesEdit)
+        {
+            <tr>
+                <td>@item.Ime</td>
+                <td>@item.BrojUDnevniku</td>
+                <td><input type="checkbox" asp-for="@item.Odsutan" name="Odsutan" disabled  /> </td>
+                <td><input type="checkbox" asp-for="@item.Opravdano" name="Opravdano" onclick="return false"/></td>
+                <td><input type="number" name="Ocjena" value="@item.Ocjena" min="0" max="5" readonly /></td>
+                <td><a class="clickLink btn btn-primary" href="/NastavnikModul/RazrednikAjax/Index?OdrzaniCasDetaljiID=@item.OdrzaniCasDetaljiID">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="Rezultat"></div>
+
+<script>
+    $(".clickLink").click(function (e) {
+        e.preventDefault();
+
+        var url = $(this).attr("href");
+
+        $.get(url, function (data) {
+            $("#Rezultat").html(data);
+        });
+    });
+</script>

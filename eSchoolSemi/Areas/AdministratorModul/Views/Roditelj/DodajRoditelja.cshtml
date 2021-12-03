@@ -1,0 +1,124 @@
+﻿@model RoditeljDodajViewModel
+@{
+    ViewData["Title"] = "RoditeljDodaj";
+}
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="modal fade" id="dodajRoditelj" tabindex="-1" role="dialog" aria-labelledby="dodajRoditelj" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="urediUcenikaLabel">Dodaj roditelja</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form asp-action="DodajRoditelja" method="post" class="col-sm-offset-2 col-sm-8">
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="Ime">Ime:</label>
+                                <input asp-for="Ime" class="form-control" />
+                                <span asp-validation-for="Ime" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Prezime">Prezime:</label>
+                                <input asp-for="Prezime" class="form-control" />
+                                <span asp-validation-for="Prezime" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Email">Email:</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Telefon">Telefon:</label>
+                                <input asp-for="Telefon" class="form-control" />
+                                <span asp-validation-for="Telefon" class="text-danger"></span>
+                            </div>
+
+                            <label asp-for="GradID">Grad:</label>
+                            <select asp-for="GradID" class="form-control">
+                                @foreach (var o in Model.Gradovi)
+                                {
+
+                                    <option value="@o.Value">@o.Text</option>
+                                }
+                            </select>
+
+                            <div class="form-group">
+                                <label asp-for="DatumRodjenja">Datum rodjenja:</label>
+                                @Html.TextBoxFor(model => model.DatumRodjenja, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @value = Model.DatumRodjenja })
+                                <span asp-validation-for="DatumRodjenja" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Username">Username:</label>
+                                <input asp-for="Username" class="form-control" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+
+                            
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("tabelaRoditelji","Roditelj")">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on('click', '#Email', function () {
+
+        var Ime = $("#Ime").val();
+        var Prezime = $("#Prezime").val();
+
+        var Email = Ime + "." + Prezime + "@@mail.com";
+
+
+
+        document.getElementById("Email").value = Email;
+
+    });
+
+    $(document).on('click', '#Username', function () {
+
+        var Ime = $("#Ime").val();
+        var Prezime = $("#Prezime").val();
+
+        var Username = Prezime + "." + Ime;
+
+
+
+        document.getElementById("Username").value = Username;
+
+    });
+
+    $(document).on('click', '#Telefon', function () {
+
+        var Broj1 = Math.floor((Math.random() * 999) + 100);
+        var Broj2 = Math.floor((Math.random() * 999) + 100);
+
+        var brojTelefona = "(+387)062-" + Broj1 + "-" + Broj2;
+        console.log(brojTelefona);
+
+        document.getElementById("Telefon").value = brojTelefona;
+
+    });
+</script>
+<script src="~/js/ajaxModal.js"></script>

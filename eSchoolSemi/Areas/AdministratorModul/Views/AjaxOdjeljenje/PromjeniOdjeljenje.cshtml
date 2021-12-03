@@ -1,0 +1,52 @@
+﻿@model AjaxUcenikOdjeljenjeVM
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="modal fade" id="promjeniOdjeljenje" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="addContactLabel">Prebaci u drugo odjeljenje!</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="SnimiPrebaceno" method="post">
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <input asp-for="OdjeljenjeID" value="@Model.OdjeljenjeID" class="form-control" type="hidden" />
+                    <input asp-for="UcenikId" value="@Model.UcenikId" class="form-control" type="hidden" />
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-xs-12 col-md-offset-2 col-md-8 ">
+                                <label asp-for="Naziv"></label>
+                                <input asp-for="Naziv" value="@Model.Naziv" class="form-control" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-xs-12 col-md-offset-2 col-md-8 ">
+                                <label asp-for="OdjeljenjePrebacenoId">Odjeljenja</label>
+                                <select asp-for="OdjeljenjePrebacenoId" asp-items="@Model.Odjeljenja" class="form-control"></select>
+                                <span asp-validation-for="OdjeljenjePrebacenoId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("Index", "AjaxOdjeljenje",new {odjeljenjeId=Model.OdjeljenjeID})">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/ajaxModal.js"></script>

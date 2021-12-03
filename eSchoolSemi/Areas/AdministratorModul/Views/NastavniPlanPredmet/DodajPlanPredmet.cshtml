@@ -1,0 +1,48 @@
+﻿@model NastPPVM
+@{
+    ViewData["Title"] = "Dodaj predmet u nastavni plan i program";
+}
+
+<h2>Dodaj predmet u nastavni plan i program"</h2>
+<form asp-action="DodajPlanPredmet" method="post" class="form-horizontal" role="form">
+
+    <div class="form-group">
+        <label asp-for="sifra" class="col-md-2 control-label">Sifra:</label>
+        <div class="col-md-5">
+            <input asp-for="sifra" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="godinaStudiranja" class="col-md-2 control-label">Godina studiranja:</label>
+        <div class="col-md-5">
+            <input asp-for="godinaStudiranja" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="brojSati" class="col-md-2 control-label">Broj sati:</label>
+        <div class="col-md-5">
+            <input asp-for="brojSati" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="nastavniPlanID" class="col-md-2 control-label">Nastavni plan:</label>
+        <div class="col-md-5">
+            <select asp-for="nastavniPlanID" asp-items="@Model.nastavniPlan" class="form-control"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="predmetID" class="col-md-2 control-label">Predmet:</label>
+        <div class="col-md-5">
+            <select asp-for="predmetID" asp-items="@Model.predmet" class="form-control"></select>
+        </div>
+    </div>
+
+   
+
+    <button type="submit" class="btn btn-danger col-md-3 col-md-offset-3">Dodaj predmet!</button>
+</form>
+

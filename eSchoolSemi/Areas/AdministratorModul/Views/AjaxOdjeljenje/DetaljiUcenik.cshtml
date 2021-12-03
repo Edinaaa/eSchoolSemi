@@ -1,0 +1,77 @@
+﻿@model UcenikDetalj
+
+<div class="modal fade" id="add-contact" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="addContactLabel">Ucenik detalji</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="text-center">
+                            @if (Model.Slika != null)
+            {<img src="data:image;base64,@System.Convert.ToBase64String(Model.Slika)" class="img-rounded text-left" height="100" width="100" /> }
+else
+{
+                <img src="~/images/default.jpg" class="img-rounded" height="100" width="100" />
+}
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImeIprezime">Ime i prezime</label>
+                        <input asp-for="ImeIprezime" class="form-control" value="@Model.ImeIprezime" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DatumRodjenja">Datum rodjenja</label>
+                        <input asp-for="DatumRodjenja" class="form-control" value="@Model.DatumRodjenja" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Roditelj"></label>
+                        <input asp-for="Roditelj" class="form-control" value="@Model.Roditelj" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="MjestoPrebivalista">Mjesto prebivalista</label>
+                        <input asp-for="MjestoPrebivalista" class="form-control" value="@Model.MjestoPrebivalista" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TrenutnoUpisanoOdjeljenje">Trenutno upisano odjeljenje!</label>
+                        <input asp-for="TrenutnoUpisanoOdjeljenje" type="text" class="form-control" value="@Model.TrenutnoUpisanoOdjeljenje" readonly />
+                    </div>
+
+                    <h4 class="text-center">Pohadjana odjeljenja</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ime</th>
+                                <th>Prezime</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Odjeljenja)
+            {
+                <tr>
+                    <td>@item.Oznaka</td>
+                    <td>@item.GodinaStudija</td>
+                </tr>
+
+}
+                        </tbody>
+
+                    </table>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>               
+            </div>
+        </div>
+    </div>
+</div>

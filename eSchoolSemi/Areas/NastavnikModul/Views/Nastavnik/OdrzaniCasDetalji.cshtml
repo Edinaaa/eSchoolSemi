@@ -1,0 +1,51 @@
+﻿@model List<eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.OdrzaniCasDetaljiIndexVM>
+@{
+    Dictionary<int, int> ocjene = new Dictionary<int, int>();
+    ViewData["Title"] = "OdrzaniCasDetalji";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ime i Prezime</th>
+            <th>Broj u Dnevniku</th>
+            <th>Odsutan</th>
+            <th>Opravdano</th>
+            <th>Ocjena</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Ucenik</td>
+                <td>@item.BrojUDnevniku</td>
+                <td><input asp-for="@item.Odsutan" id="odsutan" type="checkbox" /></td>
+                <td><input asp-for="@item.Opravdano" id="opravdan" type="checkbox" disabled /></td>
+                <td><input id="ocjena" type="number" min="0" max="5" name="Ocjena" value="@item.Ocjena" readonly /></td>
+                <td><a class="clickLink btn btn-primary" href="/NastavnikModul/OdrzaniCasAjax/Index?OdrzaniCasDetaljiID=@item.OdrzaniCasDetaljiID">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="Rezultat"></div>
+
+<script>
+    $(".clickLink").click(function (e) {
+        e.preventDefault();
+
+        var url = $(this).attr("href");
+
+        $.get(url, function (data) {
+            $("#Rezultat").html(data);
+        });
+    });
+
+    document.getElementById('odsutan').onchange = function () {
+        document.getElementById('ocjena').disabled = this.checked;
+    };
+
+
+</script>

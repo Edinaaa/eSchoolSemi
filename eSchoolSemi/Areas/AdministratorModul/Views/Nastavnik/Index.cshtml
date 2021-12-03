@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="form-group">
+                <div class="col-sm-5 verti">
+
+                    <input type="text" class="form-control" id="nastavnikValue" placeholder="Pornadji nastavnika" />
+                </div>
+                <div class="col-sm-3">
+
+                    <button id="dugmeID" class="btn btn-info">Pronadji</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+<br />
+
+
+
+<div id="tabelaN" data-table="ajaxDiv">
+
+</div>
+
+<div id="modalNastavnik">
+
+</div>
+
+<script>
+
+    $(document).ready(function (parametars) {
+
+        $.ajax({
+            url: "@Url.Action("tabelaNastavnici", "Nastavnik")", success: function (result) {
+                $("#tabelaN").html(result);
+            }
+        });
+    });
+
+    $("#nastavnikValue").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "@Url.Action("nazivNastavnika", "Nastavnik")",
+                type: "POST",
+                dataType: "json",
+                data: { Prefix: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.text, value: item.text };
+                    }))
+
+                }
+            })
+        }, error: function (xhr, status, error) {
+            alert("Error");
+        },
+        minLength: 2
+    });
+
+     $("#dugmeID").click(function (parametars) {
+
+         var searchString = $("#nastavnikValue").val();
+
+
+
+
+        $.ajax({
+            url:"/AdministratorModul/Nastavnik/tabelaNastavnici/?search=" +searchString+"&&sortOrder="+"@ViewData["NameSortParm"]", success: function (result){
+
+                $("#tabelaN").html(result);
+            }
+        });
+
+    });
+
+
+</script>

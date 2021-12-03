@@ -1,0 +1,119 @@
+﻿@model FilterOdjeljenjeVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<button class="btn btn-default" id="nesto" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <span class="glyphicon glyphicon-filter"></span>
+</button>
+
+
+<div class="container-fluid" style="padding:15px">
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <select asp-for="GodinaStudijID" asp-items="Model.GodineStudija" class="form-control" id="godina">
+                        <option value="" selected>Izaberi godinu studija</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <select asp-for="RazredID" asp-items="Model.Razred" class="form-control" id="razred">
+                        <option value="" selected>Izaberi razred</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <input type="checkbox" asp-for="ImalRazrednik" class="form-control"  /><p>Imal razrednika</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <input type="checkbox" asp-for="ImalPredstavnik" class="form-control" /><p>Imal prdstavnika</p>
+                </div>
+            </div>
+
+            <button id="btnPretrazi" class="btn btn-default">Pretrazi <span class="glyphicon glyphicon-search"></span></button>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+    <div id="nekiDiv" data-table="ajaxDiv">
+    </div>
+
+<div id="modalDiv">
+
+</div>
+
+<script>
+$(document).ready(function (parametars) {
+
+        $.ajax({
+            url: "@Url.Action("OdljenjenjeTabela", "Odjeljenje")", success: function (result) {
+                $("#nekiDiv").html(result);
+            }
+            });
+ });
+
+    var provjeriOVO = 0;
+    $(function () {
+        $("[data-toggle=collapse]").click(function (parametars) {
+            var temp = provjeriOVO;
+
+            if (provjeriOVO == 0) {
+                provjeriOVO = 1;
+            }
+
+            if (temp == provjeriOVO) {
+                provjeriOVO = 0;
+            }
+
+
+            console.log(provjeriOVO);
+        });
+    });
+
+    $("#btnPretrazi").click(function (parametars) {
+
+        var godinaStudija = $("#godina").val();
+        var razred = $("#razred").val();
+        var imalRazrednika = $("#ImalRazrednik").is(':checked');
+        var imalPredstavnika = $("#ImalPredstavnik").is(':checked');
+        
+        console.log(godinaStudija);
+        console.log(razred);
+        console.log(imalRazrednika);
+        console.log(imalPredstavnika);
+
+
+
+
+
+        var Url = "/AdministratorModul/Odjeljenje/OdljenjenjeTabela/?godinaStudijaId=" + godinaStudija + "&&razredID=" + razred + "&&imalRazrednika=" + imalRazrednika + "&&imalPredstvnika=" + imalPredstavnika;
+
+
+
+        $.ajax({
+            url: Url, async: false, success: function (result) {
+
+                $("#nekiDiv").html(result);
+            }
+        });
+
+    });
+</script>

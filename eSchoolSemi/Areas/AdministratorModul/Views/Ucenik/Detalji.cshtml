@@ -1,0 +1,49 @@
+﻿@model UcenikDetalj
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<h2>Detalji</h2>
+
+
+
+        <form class="col-md-5">
+                <div class="row">
+
+                        @if (Model.Slika != null)
+                        {<img src="data:image;base64,@System.Convert.ToBase64String(Model.Slika)" class="img-rounded text-left" height="200" width="200" /> }
+                        else
+                        {
+                            <img src="~/images/default.jpg" class="img-rounded" height="200" width="200" />
+                        }
+               
+
+                </div>
+
+                <div class="row ">
+
+                    <div class="form-group">
+                        <label asp-for="ImeIprezime">Ime i prezime</label>
+                        <input asp-for="ImeIprezime" type="text" class="form-control " value="@Model.ImeIprezime" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DatumRodjenja">Datum rodjenja</label>
+                        <input asp-for="DatumRodjenja" type="text" class="form-control" value="@Model.DatumRodjenja" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Roditelj">Roditelj</label>
+                        <input asp-for="Roditelj" type="text" class="form-control" value="@Model.Roditelj" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MjestoPrebivalista">Mjesto prebivalista</label>
+                        <input asp-for="MjestoPrebivalista" type="text" class="form-control" value="@Model.MjestoPrebivalista" readonly />
+                    </div>
+
+                   
+
+
+                </div>
+            </form>
+
+

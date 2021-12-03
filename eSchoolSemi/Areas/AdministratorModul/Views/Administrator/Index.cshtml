@@ -1,0 +1,107 @@
+﻿@model AdministratorIndexVM
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+
+
+
+
+<button type="button" title="PromjeniGodinu" class="btn btn-danger" data-toggle="ajax-modal" data-target="#promjeniGodinu"
+        data-url="@Url.Action("GodinaStudijaPromjena","Administrator")" style="margin:10px">
+    Promjeni godinu studija!
+</button>
+
+@if (Model.KorisnikId != 55)
+{
+    <button type="button" title="passPromjena" class="btn btn-danger" data-toggle="ajax-modal" data-target="#passwodPormjena"
+            data-url="@Url.Action("PromjeniPassword","Administrator")" style="margin:10px">
+        Promjeni password!
+    </button>
+}
+
+
+<button type="button" title="Dodaj" class="btn btn-danger" data-toggle="ajax-modal" data-target="#dodajAdministratora"
+        data-url="@Url.Action("Dodaj","Administrator")" style="margin:10px">
+    Dodaj administratora!
+</button>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Ime i prezime</th>
+            <th>Username</th>
+            <th>Password</th>
+            @if (Model.KorisnikId == 55)
+            {
+                <th>Akcija</th>}
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Administratori)
+        {
+            <tr>
+                <td>@item.ImePrezime</td>
+
+                @if (item.AdministratorId == 55)
+                {
+                    <td><input type="password" value="@item.Username" disabled style="border:none;background-color:white;letter-spacing:3px;font-size:medium" /></td>
+                    <td><input type="password" value="@item.Password" disabled style="border:none;background-color:white;letter-spacing:3px;font-size:medium" /></td>
+                }
+                else
+                {
+                    <td>@item.Username</td>
+                    <td>@item.Password</td>
+
+                }
+                @if (Model.KorisnikId == 55)
+                {
+
+                    <td>
+                        @if (item.AdministratorId != 55)
+                        {<a asp-action="Obrisi" asp-route-korisnikId="@item.AdministratorId" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a> }
+                        else
+                        { <a>N/A</a>}
+                    </td>
+                }
+
+
+            </tr>
+
+
+        }
+    </tbody>
+
+</table>
+
+
+
+
+
+<div id="modalDiv">
+
+</div>
+
+<script>
+    $(function () {
+
+        $('button[data-toggle="ajax-modal"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalDiv');
+
+            $.ajax({
+                url: url, async: false, success: function (result) {
+                    placeholder.html(result);
+                    placeholder.find('.modal').modal('show');
+                }
+            });
+
+        });
+    });
+
+</script>

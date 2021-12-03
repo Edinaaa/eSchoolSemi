@@ -1,0 +1,40 @@
+﻿@model UcenikUrediVM
+@{
+    ViewData["Title"] = "Uredi";
+    Layout = "~/Areas/UcenikModul/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Uredi lične podatke</h2>
+
+<form action="/UcenikModul/Ucenik/Snimi" method="post">
+    <div class="form-group">
+        <label>Ime</label>
+        <input type="text" name="Ime" class="form-control" value="@Model.Ime" />
+    </div>
+    <div class="form-group">
+        <label>Prezime</label>
+        <input type="text" name="Prezime" class="form-control" value="@Model.Prezime" />
+    </div>
+    <div class="form-group">
+        <label>DatumRodenja</label>
+        <input type="text" name="DatumRodenja" class="form-control" value="@Model.DatumRodenja" />
+    </div>
+    <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="Username" class="form-control" value="@Model.Username" />
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="Password" class="form-control" value="@Model.Password" />
+    </div>
+    <div class="form-group">
+        <label>Telefon</label>
+        <input type="text" name="Telefon" class="form-control" value="@Model.Telefon" />
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="Email" class="form-control" value="@Model.Email" />
+    </div>
+    <input type="text" name="UcenikID" hidden class="form-control" value="@Model.UcenikID" />
+    <button type="submit" value="Snimi" class="btn btn-primary" name="Snimi">Snimi</button>
+</form>

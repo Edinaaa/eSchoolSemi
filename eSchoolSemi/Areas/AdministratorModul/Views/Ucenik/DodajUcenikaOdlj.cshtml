@@ -1,0 +1,140 @@
+﻿@model OdjeljenjeUcenikVm
+@{
+    ViewData["Title"] = "DodajUcenikaOdlj";
+}
+
+
+
+
+
+<div class="modal fade" id="upisiUcenika" tabindex="-1" role="dialog" aria-labelledby="upisiUcenikaLable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="upisiUcenikaLable">Upisi ucenika</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form asp-action="snimiUpis" method="post" class="col-sm-offset-2 col-sm-8">
+
+                        <input asp-for="GodinaStudijaId"  type="hidden" value="@Model.GodinaStudijaId" class="form-control"  />
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="UcenikId">Ucenici</label>
+                                <select asp-for="UcenikId" asp-items="@Model.Ucenici" class="form-control"></select>
+                                <span asp-validation-for="UcenikId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="GodineStudija">Godina Studija</label>
+                                <input asp-for="GodineStudija" type="text" value="@Model.GodineStudija" class="form-control" readonly/>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="Razredi"></label>
+                                <select asp-for="RazredID" asp-items="@Model.Razredi" class="form-control"></select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="OdjeljenjeId">Odjeljenja</label>
+                                <select asp-for="OdjeljenjeId" name="selector" class="form-control"></select>
+                                <span asp-validation-for="OdjeljenjeId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                   
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="snimajOvo" class="btn btn-default" >Upisi</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $("select[name=selector]").focus(function (parametars) { 
+
+        $("#OdjeljenjeId option").remove()
+
+
+        var godinaStudija = $("#GodinaStudijaId").val();
+        var razred = $("#RazredID").val();
+
+       
+
+        var Jason = $.ajax({
+            url: "/AdministratorModul/Ucenik/vratiOdjlejenje/?GodinaID=" + godinaStudija + "&&RazredID=" + razred,
+            async: false,
+            dataType: 'json'
+        }).responseJSON;
+
+        
+
+        var listitems = '';
+        $.each(Jason, function (arrayID, group) {
+            listitems += '<option value=' + group.value + '>' + group.text + '</option>';
+        });
+        $("select[name=selector]").append(listitems);      
+
+
+
+        
+
+    });
+
+
+
+
+    
+    
+   
+    $("#snimajOvo").click(function (parametars) { 
+
+        
+        var ucenik = $("#UcenikId").val();
+        var odjeljenje = $("#OdjeljenjeId").val();
+
+        console.log(odjeljenje);
+
+        if (odjeljenje != null && ucenik!=null) {
+
+            location.href = "/AdministratorModul/Ucenik/snimiUpis?UcenikId=" + ucenik + "&&OdjeljenjeId=" + odjeljenje;
+                      
+        }
+
+        else {
+            alert("Polja nesmiju biti prazna!");
+        }
+
+        
+    });
+    
+
+
+</script>

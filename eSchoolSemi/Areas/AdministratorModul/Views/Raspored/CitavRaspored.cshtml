@@ -1,0 +1,111 @@
+﻿@model PregledRasporedVM
+@{
+    ViewData["Title"] = "CitavRaspored";
+}
+
+
+
+
+<div class="modal fade" id="rasporedPregled" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="addContactLabel">Raspored</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="rasporedTabela" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ponedeljak</th>
+                            <th>Utorak</th>
+                            <th>Srijeda</th>
+                            <th>Cetvrtak</th>
+                            <th>Petak</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <tr>
+                                @for (int j = 0; j < 5; j++)
+                                {
+                                    <td>N/A</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function CreateTable(Predmet, Dan, Cas) {
+
+        var i = 1;
+        var j = 1;
+
+        switch (Dan) {
+
+            case "Ponedeljak":
+                j = 0;
+                break;
+            case "Utorak":
+                j = 1;
+                break;
+            case "Srijeda":
+                j = 2;
+                break;
+            case "Cetvrtak":
+                j = 3;
+                break;
+            default:
+                j = 4;
+        }
+
+        switch (Cas) {
+
+            case "7:00":
+                i = 1;
+                break;
+            case "7:50":
+                i = 2;
+                break;
+            case "8:35":
+                i = 3;
+                break;
+            case "9:35":
+                i = 4;
+                break;
+            case "10:25":
+                i = 5;
+                break;
+            case "11:15":
+                i = 6;
+                break;
+            default:
+                i = 7;
+        }
+
+
+        document.getElementById("rasporedTabela").rows[i].cells[j].innerHTML = "(" + Cas + ")" + " " + Predmet;
+    };
+
+
+</script>
+
+@foreach (var item in Model.listaPredmeta)
+{
+
+    <script>CreateTable("@item.Predmet","@item.Dan","@item.PocetakCasa")</script>
+
+};

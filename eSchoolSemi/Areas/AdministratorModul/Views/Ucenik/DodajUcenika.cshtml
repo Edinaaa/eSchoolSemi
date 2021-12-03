@@ -1,0 +1,197 @@
+﻿@model UcenikDodajVM
+
+@{
+    var provjera = ViewData["Provjera"];
+
+    
+}
+<style>
+    .modal-body col-sm-8 {
+        margin-bottom: 10px;
+    }
+</style>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+<div id="ucenikDodajM" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Dodaj ucenika</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form method="post" enctype="multipart/form-data" asp-action="SnimiUcenika" id="temp" role="form">
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-offset-2 col-sm-8 ">
+                                    <label asp-for="Ime"></label>
+                                    <input asp-for="Ime" type="text" class="form-control" />
+                                    <span asp-validation-for="Ime" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-8 ">
+                                    <label asp-for="Prezime"></label>
+                                    <input asp-for="Prezime" type="text" class="form-control" />
+                                    <span asp-validation-for="Prezime" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-8">
+                                    <label asp-for="Username"></label>
+                                    <input asp-for="Username" type="text" class="form-control" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <label asp-for="Telefon"></label>
+                                <input asp-for="Telefon" type="tel" class="form-control" />
+                                <span asp-validation-for="Telefon" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" type="email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <label asp-for="KorinickaSlika">Upload korisnicke slike</label>
+                                <input asp-for="KorinickaSlika" type="file" multiple class="form-control" />
+                                <span asp-validation-for="KorinickaSlika" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <label asp-for="DatumRodjenja">Datum rodjenja</label>                   
+                                @Html.TextBoxFor(model => model.DatumRodjenja, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @value=Model.DatumRodjenja })
+                                @Html.ValidationMessageFor(m => m.DatumRodjenja, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group ui-front">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <label asp-for="Roditelj">Unesite prezime i ime roditelja:</label>
+                                <input asp-for="Roditelj" type="text" class="form-control" />
+                                <span asp-validation-for="Roditelj" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <label asp-for="GradID">Mjesto stanovanja</label>
+                                <select asp-for="GradID" asp-items="@Model.Gradovi" class="form-control"></select>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("_tabela", "Ucenik")">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $(document).on('click', '#Email', function () {
+
+        var Ime = $("#Ime").val();
+        var Prezime = $("#Prezime").val();
+
+        var Email = Ime + "." + Prezime + "@@mail.com";
+
+       
+
+        document.getElementById("Email").value = Email;
+
+    });
+    $(document).on('click', '#Username', function () {
+
+        var Ime = $("#Ime").val();
+        var Prezime = $("#Prezime").val();
+
+        var Username = Prezime + "." + Ime;
+
+
+
+        document.getElementById("Username").value = Username;
+
+    });
+    $(document).on('click','#Telefon', function () {
+
+        var Broj1 = Math.floor((Math.random() * 999) + 100);
+        var Broj2 = Math.floor((Math.random() * 999) + 100);
+
+        var brojTelefona = "(+387)062-" + Broj1 + "-" + Broj2;
+        
+
+        document.getElementById("Telefon").value = brojTelefona;
+
+    });
+
+
+    $("#Roditelj").autocomplete({
+        source: function (request, response) {
+            
+            $.ajax({
+                url: "@Url.Action("nazivRoditelja", "Ucenik")",
+                type: "POST",
+                dataType: "json",
+                data: { Prefix: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.text, value: item.text };
+                    }))
+
+                }
+            })
+        }, error: function (xhr, status, error) {
+            alert("Error");
+        },
+        minLength: 2
+    });
+
+    $("#Roditelj").autocomplete("option", "appendTo", ".eventInsForm");
+
+</script>
+<script src="~/js/ajaxModal.js"></script>
+

@@ -1,0 +1,32 @@
+﻿@model List<eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.OdrzaniCasIndexVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+<h1>Casovi</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Predmet</th>
+            <th>Odjelenje</th>
+            <th>Datum Odrzavanja</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Predmet</td>
+                <td>@item.OznakaOdjeljenja</td>
+                <td>@item.DatumOdrzavanja</td>
+                <td>
+                    <a class="btn btn-primary" href="/NastavnikModul/OdrzaniCas/Edit?OdrzaniCasID=@item.OdrzaniCasID&OdjeljenjeID=@item.OdjeljenjeID&_Odjeljenje=@item.OznakaOdjeljenja&_Predmet=@item.Predmet">Edit</a>
+                    <a class="btn btn-primary" href="/NastavnikModul/OdrzaniCas/Brisi?OdrzaniCasID=@item.OdrzaniCasID&OdjeljenjeID=@item.OdjeljenjeID">Brisi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,27 @@
+﻿
+@model ObavijestDetaljiVM
+@{
+    ViewData["Title"] = "Detalji";
+    Layout = "~/Areas/UcenikModul/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalji</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h3>
+                <span class="glyphicon glyphicon-list-alt"></span> 
+                @Model.Naslov  -- Obavjest @Model.TipObavijesti.ToLower()
+            </h3>
+            <small>
+                <i>Napisao/la @Model.Autor datuma @Model.DatumObavjestenja</i>
+            </small>
+            <footer style="border-top:solid thin"></footer>
+            <div class="col-sm-12" style="border:solid thin; width:100%; height:200px">
+                <text>@Model.Sadrzaj</text>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>

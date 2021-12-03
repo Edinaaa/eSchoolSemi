@@ -1,0 +1,107 @@
+﻿@model OdjeljenjePrebaciVM
+@{
+    ViewData["Title"] = "PrebaciUOdljeljenje";
+}
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="modal fade" id="prebaciOdjeljenje" tabindex="-1" role="dialog" aria-labelledby="dodajNastavnikLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="dodajNastavnikLabel">Dodaj nastavni plan!</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form asp-action="SnimiPrebaceno" method="post">
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+
+                        <input asp-for=" OdjeljenjeID" type="hidden" class="form-control" value="@Model.OdjeljenjeID" />
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-offset-2 col-md-8 ">
+                                    <label asp-for="Oznaka"></label>
+                                    <input asp-for="Oznaka" type="text" value="@Model.Oznaka" class="form-control" disabled />
+                                    <span asp-validation-for="OdjeljenjeID"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-offset-2 col-md-8 ">
+                                    <label asp-for="Odjeljenja"></label>
+                                    <select asp-for="OdabranoOdljeljenjeID" asp-items="@Model.Odjeljenja" class="form-control"></select>
+                                    <span asp-validation-for="OdabranoOdljeljenjeID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("Detalji", "Odjeljenje",new {id=Model.OdjeljenjeID })">Save</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function (parametars) {
+
+        $('button[data-save="modal"]').click(function (event) {
+
+
+            event.preventDefault();
+            var form = $(this).parents('.modal').find('form');
+            var nesto = form.valid();
+            var actionUrl = form.attr("action");
+            var url = $(this).attr('data-url');
+            var modalID = $(".modal").attr('id');
+
+
+
+
+
+            var dataToSend = new FormData(form.get(0));
+
+            if (nesto) {
+                $.ajax({ url: actionUrl, method: 'post', data: dataToSend, processData: false, contentType: false }).
+                    done(function (data) {
+                        var newBody = $('.modal-body', data);
+                        $("#" + modalID).find('.modal-body').replaceWith(newBody);
+
+
+
+                        if (newBody.find('[name="IsValid"]').val() !== "False") {
+
+                            $('.modal').modal('hide');
+                            window.location = url;
+                        }
+
+                    });
+            }
+
+
+
+
+        });
+
+    });
+</script>

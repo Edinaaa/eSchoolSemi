@@ -1,0 +1,164 @@
+﻿@model PaginatedList<OdjeljenjeIndexVM.Row>
+
+
+
+
+<button type="button" title="Dodaj" class="btn btn-info" data-toggle="ajax-modal-test4" data-target="#dodajOdljeljenje"
+        data-url="@Url.Action("DodajOdjeljenje","Odjeljenje")" style="margin-bottom:15px">
+   Dodaj odjeljenje
+</button>
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Oznaka</td>
+            <td>Godina studija</td>
+            <td>Kapacitet</td>
+            <td>Broj ucenika</td>
+            <td>Razrednik</td>
+            <td>Predstavnik</td>
+            <td>Akcija</td>
+
+        </tr>       
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Oznka</td>
+            <td>@item.GodinaStudija</td>
+            <td>@item.Kapacitet</td>
+            <td>@item.BrojUcenika</td>
+            <td>@item.Razrednik</td>
+            <td>@((item.Predstavnik == null) ? "Nema predstavnika" : item.Predstavnik)</td>
+            <td>
+                <button type="button" title="Dodaj" class="btn btn-info" data-toggle="ajax-modal-test4" data-target="#UrediOdljeljenje"
+                        data-url="@Url.Action("Uredi","Odjeljenje",new {id=item.OdjeljenjeID })" style="margin:5px">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+                <a data-url="@Url.Action("Obrisi","Odjeljenje",new {OdjeljenjeID=item.OdjeljenjeID})" data-nesto="Obrisi" class="btn btn-info"><span class="glyphicon glyphicon-trash"></span></a>
+                <a asp-action="Detalji" asp-route-id="@item.OdjeljenjeID" class="btn btn-info"><span class="glyphicon glyphicon-info-sign"></span></a>
+
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+
+<div style="padding:15px">
+    <button id="Nazad" class="btn btn-default @prevDisabled" @prevDisabled>
+        Previous
+    </button>
+    <button id="Naprijed" class="btn btn-default @nextDisabled"@nextDisabled >
+        Next
+    </button>
+</div>
+
+
+<script>
+
+    $(function () {
+
+        $('button[data-toggle="ajax-modal-test4"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalDiv');
+
+            $.ajax({
+                url: url, async: false, success: function (result) {
+                    placeholder.html(result);
+                    placeholder.find('.modal').modal('show');
+                }
+            });
+
+        });
+    });
+
+    $("[data-nesto='Obrisi']").click(function (parametars) {
+        var actionUrl = $(this).attr('data-url');
+        var provjera = confirm("Brisanjem odjeljenja uzrokovat ce promjenu nekih podataka na sistemu.Da li zelite obrisati?")
+        if (provjera) { 
+
+            window.location = actionUrl;
+        }
+
+         });
+
+    $(function () {
+        $("#Nazad").click(function (parametars) {
+
+
+            var godinaStudija = $("#godina").val();
+            var razred = $("#razred").val();
+            console.log($("#ImalRazrednik").val());
+            if ($("#ImalRazrednik").val() != null) {
+
+                var imalRazrednika = $("#ImalRazrednik").is(':checked');
+            }
+            if ($("#ImalPredstavnik").val() != null) {
+                var imalPredstavnika = $("#ImalPredstavnik").is(':checked');
+            }
+
+            var Url;
+
+            if (provjeriOVO == 1) {
+
+                Url = "/AdministratorModul/Odjeljenje/OdljenjenjeTabela/?page=@(Model.PageIndex-1)" + "&&godinaStudijaId=" + godinaStudija + "&&razredID=" + razred + "&&imalRazrednika=" + imalRazrednika + "&&imalPredstvnika=" + imalPredstavnika;
+            }
+            else {
+                Url = "/AdministratorModul/Odjeljenje/OdljenjenjeTabela/?page=@(Model.PageIndex-1)";
+            }
+
+
+
+            $.ajax({
+                url: Url, async: false, success: function (result) {
+                    $("#ajaxDiv").html(rezultat);
+                }
+            });
+
+        });
+
+
+       
+
+        $("#Naprijed").click(function (parametars) {
+
+
+            var godinaStudija = $("#godina").val();
+            var razred = $("#razred").val();
+            if ($("#ImalRazrednik").val() != null) {
+
+                var imalRazrednika = $("#ImalRazrednik").is(':checked');
+            }
+            if ($("#ImalPredstavnik").val() != null) {
+                var imalPredstavnika = $("#ImalPredstavnik").is(':checked');
+            }
+
+            var Url;
+
+            if (provjeriOVO === 1) {
+
+                Url = "/AdministratorModul/Odjeljenje/OdljenjenjeTabela/?page=@(Model.PageIndex+1)" + "&&godinaStudijaId=" + godinaStudija + "&&razredID=" + razred + "&&imalRazrednika=" + imalRazrednika + "&&imalPredstvnika=" + imalPredstavnika;
+            }
+            else {
+                Url = "/AdministratorModul/Odjeljenje/OdljenjenjeTabela/?page=@(Model.PageIndex+1)";
+            }
+            $.ajax({
+                url: Url, async: false, success: function (result) {
+                    $("#ajaxDiv").html(rezultat);
+                }
+            });
+        });
+    });
+    </script>
+
+
+

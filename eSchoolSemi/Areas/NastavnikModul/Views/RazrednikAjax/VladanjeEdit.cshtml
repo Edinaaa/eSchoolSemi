@@ -1,0 +1,29 @@
+﻿@model eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.AjaxVladanjeVM
+
+@{ 
+    ViewData["Title"] = "Index";
+}
+
+<form asp-action="VladanjeSnimi" asp-controller="RazrednikAjax" method="post">
+    <div class="form-group">
+        <label>Ime</label>
+        <input class="form-control" value="@Model.Ime" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Vladanje</label>
+        <select class="form-control" asp-for="Vladanje">
+            <option value="Primjerno">Primjerno</option>
+            <option value="Vrlo Dobro">Vrlo Dobro</option>
+            <option value="Dorbo">Dorbo</option>
+            <option value="Lose">Lose</option>
+            <option value="Katastrofalno">Katastrofalno</option>
+        </select>
+        <input asp-for="UcenikID" value="@Model.UcenikID" type="number" hidden />
+        <input asp-for="OdjeljenjeID" value="@Model.OdjeljenjeID" type="number" hidden />
+    </div>
+
+    <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+</form>
+
+

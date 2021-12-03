@@ -1,0 +1,131 @@
+﻿@model OdjenjenjeVM
+@{
+    ViewData["Title"] = "Detalji";
+
+    var provjera = "";
+    var provaejra2 = "";
+    
+
+    foreach (var item in Model.BrojRazreda)
+    {
+        if (item.Value == Model.RazredID.ToString()) {
+            provjera = item.Text;
+            provaejra2 = item.Value;
+        }
+
+    }
+}
+
+<div class="container text-left" style="margin:10px">
+
+    @if (provjera != "Peti"&&Model.GodinaStudiranjaId!=1)
+    {
+
+        <button type="button" title="Dodaj" class="btn btn-info" data-toggle="ajax-modal-test4" data-target="#prebaciOdjeljenje"
+                data-url="@Url.Action("PrebaciUOdljeljenje","Odjeljenje",new {OdjeljenjeID=Model.OdjeljenjeID })" style="margin:5px">
+            Prebaci ucenike!
+        </button>
+    }
+
+
+    @if (Model.RasporedId != null)
+    {
+        <button type="button" title="Dodaj" class="btn btn-info"data-toggle="ajax-modal-test4" data-target="#rasporedPregled"
+                data-url="@Url.Action("CitavRaspored","Raspored",new {RasporedID=Model.RasporedId })" style="margin:5px">
+            Pregled
+        </button>
+
+        <a asp-action="UrediRaspored" asp-controller="Raspored" asp-route-id="@Model.RasporedId" class="btn btn-info" style="margin:5px">Uredi</a>
+    }
+    else
+    {
+        <button type="button" title="Dodaj" class="btn btn-info" data-toggle="ajax-modal-test4" data-target="#rasporedPregled"
+                data-url="@Url.Action("DodajRaspored","Raspored",new {OdjeljenjeId=Model.OdjeljenjeID })" style="margin:5px">
+            Dodaj raspored
+        </button>
+    }
+</div>
+
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for=" Oznaka">Razred:</label>
+            <input asp-for=" Oznaka" readonly class="form-control" />
+        </div>
+
+        <div class="form-group col-md-6">
+            @foreach (var item in Model.Razrednik)
+            {
+                if (Model.NastavnikID.ToString() == item.Value)
+                {
+                    <label asp-for=" Razrednik">Razrednik:</label>
+                    <input asp-for="@item.Text" readonly class="form-control" />
+
+                }
+            }
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+
+                @foreach (var item in Model.GodinaStudiranja)
+                {
+                    if (Model.GodinaStudiranjaId.ToString() == item.Value)
+                    {
+                        <label asp-for=" GodinaStudiranja">Godina studija:</label>
+                        <input asp-for="@item.Text" readonly class="form-control" />
+
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for=" Kapacitet">Kapacitet:</label>
+                <input asp-for=" Kapacitet" readonly class="form-control" />
+            </div>
+        </div>
+
+
+
+        <div class="form-group col-md-6">
+            @foreach (var item in Model.Predstavnik)
+            {
+                if (Model.UcenikID.ToString() == item.Value)
+                {
+                    <label asp-for="Predstavnik">Predstavnik:</label>
+                    <input asp-for="@item.Text" readonly class="form-control" />
+
+                }
+            }
+        </div>
+    </div>
+</form>
+
+
+<div id="tabelaUcenika" data-table="ajaxDiv">
+
+</div>
+
+<div id="modalPlaceholder">
+
+</div>
+
+
+<script>
+    $(document).ready(function (parametars) {
+
+        $.get("@Url.Action("Index", "AjaxOdjeljenje", new { odjeljenjeId = Model.OdjeljenjeID })", function (rezultat, status) {
+
+            $("#tabelaUcenika").html(rezultat);
+        });
+
+
+
+
+    });
+
+</script>
+
+

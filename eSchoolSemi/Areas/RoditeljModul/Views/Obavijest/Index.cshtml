@@ -1,0 +1,25 @@
+﻿@model ObavijestIndexVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/RoditeljModul/Views/Shared/_Layout.cshtml";
+
+}
+
+
+@foreach (var x in Model.Rows)
+{
+ 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <h3><a href="/RoditeljModul/Obavijest/Detalji?ObavjestenjeId=@x.ObavjestenjeId"><span class="glyphicon glyphicon-list-alt"></span> @x.Naslov  -- Obavjest @x.TipObavijesti.ToLower()</a></h3>
+                    <small><i>Napisao/la @x.Autor datuma @x.DatumObavjestenja</i></small>
+                    <footer style="border-top:solid thin"></footer>
+                   
+                    <br />
+                </div>
+            </div>
+        </div>
+    
+}

@@ -1,0 +1,42 @@
+﻿@model NastavniPlanProgramDetaljiVM
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+
+<table class="table table-bordered" >
+    <tr>
+
+        <td><b>Predmet</b></td>
+        <td><b>Oznaka</b></td>
+        <td><b>BrojCasova</b></td>
+        <td><b>Nastavnik</b></td>
+
+    </tr>
+    @foreach (var x in Model.Rows)
+    {
+    <tr>
+        <td>@x.Predmet</td>
+        <td>@x.Oznaka</td>
+        <td>@x.BrojCasova</td>
+        <td>
+            @x.ImePrezimeNastavnika
+        <button onclick="Pozovi('/RoditeljModul/NastavniPlanProgram/NastavnikDetalji?NastavnikID=@x.NastavnikID')"><span class="glyphicon glyphicon-list-alt"></span></button>
+        </td>
+    </tr>
+
+
+    }
+
+</table>
+
+<script>
+
+    function Pozovi(url) {
+        $.get(url, function (rez) {
+            $("#PredmetId").html(rez);
+        })
+    }
+
+
+</script>

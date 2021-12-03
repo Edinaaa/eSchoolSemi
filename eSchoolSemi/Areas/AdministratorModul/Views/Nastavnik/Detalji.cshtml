@@ -1,0 +1,84 @@
+﻿@model NastavnikGradViewModel
+
+<div class="modal fade" id="detaljiNastavnika" tabindex="-1" role="dialog" aria-labelledby="detaljiNastavnikaLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="detaljiNastavnikaLabel">Uredi nastavnika!</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form  class="col-sm-offset-2 col-sm-8">                       
+
+                        <div class="row">
+
+
+
+
+                            <div class="form-group">
+                                <label asp-for="Ime"></label>
+                                <input asp-for="Ime" type="text" class="form-control" readonly value="@Model.Ime" />
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Prezime">Ime i prezime:</label>
+                                <input asp-for="Prezime" type="text" class="form-control" readonly value="@Model.Prezime" />
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label asp-for="Email">Email:</label>
+                                <input asp-for="Email" type="text" class="form-control" readonly value="@Model.Email" />
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Telefon">Telefon:</label>
+                                <input asp-for="Telefon" class="form-control" readonly value="@Model.Telefon" />
+
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="MjestoRodjenja">Telefon:</label>
+                                <input asp-for="MjestoRodjenja" class="form-control" readonly value="@Model.MjestoRodjenja" />
+
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="DatumRodjenja">Datum Rodjenja:</label>
+                                <input type="text" class="form-control" readonly value="@Model.DatumRodjenja.ToShortDateString()" />
+
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="DatumZaposljenja">Datum Zaposljenja:</label>
+                                <input type="text" class="form-control" readonly value="@Model.DatumZaposljenja.ToShortDateString()" />
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="Zvanje">Zvanje:</label>
+                                <input asp-for="Zvanje" readonly class="form-control" value=@Model.Zvanje />
+                                
+                            </div>
+                        </div>
+                                                       
+                    </form>
+
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

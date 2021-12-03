@@ -1,0 +1,61 @@
+﻿
+@model eSchoolSemi.Web.ViewModels.LoginVM
+@{
+    ViewData["Title"] = "Login";
+    string error_poruka = (string)TempData["error_poruka"];
+    Layout = "_LayoutAnonim";
+}
+
+
+
+<div class="modal-dialog">
+    <div class="col-sm-9 main-section">
+        <div class="modal-content">
+
+            <div class="text-center col-12 user-img">
+                <img src="~/images/School icon.png">
+            </div>
+            @if (error_poruka != null)
+            {
+                <br />
+                <div class="text-danger text-center">
+                    @error_poruka
+                </div>
+            }
+            <div class="col-12 form-input">
+                <form asp-action="Login">
+                    <div class="form-group has-feedback">
+                        <label class="control-label">Username: </label>
+
+
+                        <input asp-for="username" class="form-control" placeholder="Unesite korisnicko ime" />
+                        <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                        <span asp-validation-for="username" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label">Password: </label>
+
+                        <input asp-for="password" class="form-control" placeholder="Unesite lozinku" />
+                        <i class="glyphicon glyphicon-lock form-control-feedback "></i>
+                        <span asp-validation-for="password" class="text-danger"></span>
+
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-success col-sm-offset-5">Login</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+﻿@model eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.SastanakDodajVM
+@{
+    ViewData["Title"] = "Dodaj";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Snimi" asp-controller="Sastanak" method="post">
+    <div class="form-group">
+        <label>Naziv Sastanka</label>
+        <input class="form-control" type="text" asp-for="Naziv" required />
+    </div>
+    <div class="form-group">
+        <label>Datum Sastanka</label>
+        <input class="form-control" type="text" asp-for="DatumSastanka" required />
+    </div>
+    <div class="form-group">
+        <label>Odjeljenje</label>
+        <select class="form-control" asp-for="OdjeljenjeID" asp-items="@Model.Odjeljenja"></select>
+    </div>
+    <div class="form-group">
+        <label>Sastanak Tip</label>
+        <select class="form-control" asp-for="SastanakTipID" asp-items="@Model.SastanakTip"></select>
+    </div>
+    <div class="form-group">
+        <label>Opis</label>
+        <textarea class="form-control" style="border:solid thin; width:100%; height:200px" asp-for="Opis" required></textarea>
+    </div>
+
+    <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+</form>

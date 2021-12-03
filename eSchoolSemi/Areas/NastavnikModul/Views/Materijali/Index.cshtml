@@ -1,0 +1,49 @@
+﻿@model List<eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.MaterijaliIndexVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+<h1>Materijali</h1>
+
+<a class="btn btn-primary" href="/NastavnikModul/Materijali/Dodaj">Dodaj Materijal</a> <br />  <br />
+@foreach (var item in Model)
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <header style="border-top:solid thin"></header>
+                @*<h3><a href="/NastavnikModul/Materijali/Detalji?MaterijaliID=@item.MaterijalID">@item.Naslov</a></h3>*@
+                @*@if (item.Extension == ".pdf")
+                    {
+                        <img src="https://image.flaticon.com/icons/png/128/337/337946.png" height="50" width="50"/>
+                    }
+                    else if (item.Extension == ".docx")
+                    {
+                        <img src="https://image.flaticon.com/icons/png/128/55/55464.png" height="50" width="50"/>
+                    }
+                    else if (item.Extension == ".docx")
+                    {
+                        <img src="https://cdn3.iconfinder.com/data/icons/file-extension-names-vol-4/512/42-128.png" />
+                    }*@
+                <h3>
+                    @if (item.Extension == ".pdf")
+                    {
+                        <img src="https://cdn3.iconfinder.com/data/icons/chooseanycolor/128/pdf-128.png" height="50" width="50" />
+                    }
+                    else if (item.Extension == ".docx")
+                    {
+                        <img src="https://image.flaticon.com/icons/png/128/55/55464.png" height="50" width="50" />
+                    }
+                    else if (item.Extension == ".pptx")
+                    {
+                        <img src="https://cdn3.iconfinder.com/data/icons/eldorado-stroke-documents/40/pptx-128.png" height="50" width="50" />
+                    }<a href="" download="@item.FilePath">@item.Naslov</a>
+                </h3>
+                <small>Autor: @item.Autor </small> <br />
+                <small>Datum: @item.DatumObjave</small> <br />
+                <a class="btn btn-primary" href="/NastavnikModul/Materijali/Brisi?MaterijaliID=@item.MaterijalID" style="width:200px; left: 800px; bottom: 50px; position: relative">Brisi</a>
+                <footer style="border-top:solid thin"></footer>
+            </div>
+        </div>
+    </div>
+}

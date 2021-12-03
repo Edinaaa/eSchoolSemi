@@ -1,0 +1,42 @@
+﻿@model SastanakUrediVM
+@{
+    ViewData["Title"] = "Uredi";
+}
+
+<h2>Uredi</h2>
+
+<form action="/RoditeljModul/Sastanak/SnimiEdit" method="post">
+    <div class="form-group">
+        <label>DatumObjave</label>
+        <input type="text" name="DatumObjave" class="form-control" value="@Model.DatumObjave" />
+    </div>
+    <div class="form-group">
+        <label>DatumSastanka</label>
+        <input type="text" name="DatumSastanka" class="form-control" value="@Model.DatumSastanka" />
+    </div>
+    <div class="form-group">
+        <label>Tip sastanka</label>
+        <input type="text" name="SastankTip" class="form-control" value="@Model.SastankTip" />
+    </div>
+    <div class="form-group">
+        <label>Naziv</label>
+        <input type="text" name="Naziv" class="form-control" value="@Model.Naziv" />
+    </div>
+    <div class="form-group">
+        <label>Opis</label>
+        <input type="text" name="Opis" class="form-control" value="@Model.Opis" />
+    </div>
+    <div class="form-group">
+        <label>Komentar</label>
+        <input type="password" name="Komentar" class="form-control" value="@Model.Komentar" />
+    </div>
+    <div class="form-group">
+        <label>Ucenici</label>
+        <select asp-for="UcenikId" asp-items="@Model.Ucenici" class="form-control">
+            <option>(Odaberite ucenika)</option>
+        </select>
+
+    </div>
+    <input type="text" name="RoditeljID" hidden class="form-control" value="@Model.RoditeljID" />
+    <button type="submit" value="SnimiEdit" class="btn btn-primary" name="SnimiEdit">Snimi</button>
+</form>

@@ -1,0 +1,65 @@
+﻿@model UcenikOdjeljenje
+
+<div class="modal fade" id="dodajUcenikOD" tabindex="-1" role="dialog" aria-labelledby="dodajRoditelj" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="urediUcenikaLabel">Dodaj roditelja</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                   
+                            <form asp-action="SnimiOdjeljenje" method="post">
+
+                                <input asp-for="OdjeljenjeId" class="form-control" value="@Model.OdjeljenjeId" hidden />
+
+
+
+                                <div class="row">
+                                    <div class="form-group col-md-6 col-md-push-3">
+                                        <label asp-for="Oznaka">Odjeljenje</label>
+                                        <input asp-for="Oznaka" class="form-control" value="@Model.Oznaka" readonly />
+                                    </div>
+                                </div>
+
+                                
+                                        <div class="ui-widget">
+                                            
+                                            <select asp-for="UcenikId" id="combobox" asp-items="@Model.Ucenik" >
+                                                <option value=""></option>
+                                            </select>
+                                      
+                                        </div>
+
+
+                                <div class="col-md-4 col-md-push-5">
+                                    <button type="submit" class="btn btn-default">Dodaj ucenika!</button>
+                                </div>
+
+                            </form>
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,111 @@
+﻿@model ObavjestFilterVm
+@{
+    ViewData["Title"] = "Index";
+
+    
+}
+
+
+
+<div class="container-fluid">
+    <a asp-action="DodajObavjest" class="btn btn-default">Dodaj obavjest</a>
+
+    <button class="btn btn-default"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+       <span class="glyphicon glyphicon-filter"></span>
+    </button>
+    
+</div>
+
+<div class="container-fluid" style="padding:15px">
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <input asp-for="Naslov" type="text" class="form-control" placeholder="Unesite naslov obavjesti" id="naslovString" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <select asp-for="NastavnikID" asp-items="Model.Nastavnik" class="form-control" id="obavjestNastavnik">
+                        <option value=""selected>Izaberi nastavnika</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <select asp-for="TipObavjestiID" asp-items="Model.TipObavjesti" class="form-control" id="obavjestTip">
+                        <option value="" disabled selected>Izaberi tip</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <input asp-for="DatumOd" class="form-control" value="" id="datumOD" />
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <input asp-for="DatumDo" class="form-control" value="" id="datumDO" placeholder="Unesi datum" />
+                </div>
+            </div>
+
+            <button id="btnPretrazi" class="btn btn-default">Pretrazi <span class="glyphicon glyphicon-search"></span></button>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div id="Obavjesti">
+
+</div>
+
+<script>
+     $(document).ready(function (parametars) {
+
+        $.ajax({
+            url: "@Url.Action("ObavjestiAjax", "Obavjesti")", success: function (result) {
+                $("#Obavjesti").html(result);
+            }
+        });
+    });
+
+    $("#btnPretrazi").click(function (parametars) {
+
+        var naslovObv = $("#naslovString").val();
+        var tipvObv = $("#obavjestTip").val();
+        var datumObvOd = $("#datumOD").val();
+        var datumObvDo = $("#datumDO").val();
+        var nastavnikObj = $("#obavjestNastavnik").val();
+
+
+
+
+
+        var Url = "/AdministratorModul/Obavjesti/ObavjestiAjax/?Naslov=" + naslovObv + "&&Tip=" + tipvObv + "&&NastavnikID=" + nastavnikObj+ "&&DatumOd=" + datumObvOd + "&&DatumDo=" + datumObvDo;
+
+        
+
+        $.ajax({
+            url: Url, success: function (result) {
+
+                $("#Obavjesti").html(result);
+            }
+        });
+
+    });
+
+    
+
+</script>
+

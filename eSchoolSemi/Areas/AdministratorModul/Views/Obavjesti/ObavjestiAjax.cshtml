@@ -1,0 +1,81 @@
+﻿@model eSchoolSemi.Web.Helper.PaginatedList<ObavjestiIndexVM.Row>
+
+
+
+
+@foreach (var obavjest in Model)
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <h3><a asp-action="Detalji" asp-route-ObavjestID="@obavjest.ObavjestID"><span class="glyphicon glyphicon-list-alt"></span> @obavjest.Naslov  -- Obavjest @obavjest.TipObavjesti.ToLower()</a></h3>
+                <small><i>Napisao/la @obavjest.Autor datuma @obavjest.DatumPostavljanja</i></small>
+                <footer style="border-top:solid thin"></footer>
+                @if (obavjest.Autor == "Administracija")
+    {
+            <a asp-action="Uredi" asp-route-ObavjestID="@obavjest.ObavjestID" title="Uredi" class="btn btn-default text-right"><span class="glyphicon glyphicon-cog"></span>    </a>
+            <button data-toggle="obrisatObavjest" data-url="@Url.Action("Obrisi","Obavjesti",new {ObavjestId=obavjest.ObavjestID })" title="Obrisi" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+}
+                <br />
+            </div>
+        </div>
+    </div>
+}
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+    <div style="padding:15px">
+        <button id="Nazad" class="btn btn-default @prevDisabled">
+            Previous
+        </button>
+        <button id="Naprijed" class="btn btn-default @nextDisabled">
+            Next
+        </button>
+    </div>
+
+<script>
+    
+
+    $("#Nazad").click(function (parametars) {
+
+        
+        var Url ="/AdministratorModul/Obavjesti/ObavjestiAjax/?page=@(Model.PageIndex-1)";
+        $.get(Url, function (rezultat, status) {
+
+            $("#Obavjesti").html(rezultat);
+        });
+    });
+
+
+    $("#Naprijed").click(function (parametars) {
+
+        
+        var Url = "/AdministratorModul/Obavjesti/ObavjestiAjax/?page=@(Model.PageIndex+1)";
+        console.log(Url);
+        $.get(Url, function (rezultat, status) {
+
+            $("#Obavjesti").html(rezultat);
+        });
+    });
+
+
+    $(function () {
+
+        $('button[data-toggle="obrisatObavjest"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#Obavjesti');
+
+            $.get(url).done(function (data) {
+
+                placeholder.html(data);
+
+            });
+        });
+    });
+    
+</script>

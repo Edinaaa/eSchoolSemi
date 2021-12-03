@@ -1,0 +1,39 @@
+﻿@model List<eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.VladanjeIndexVM>
+@{
+    ViewData["Title"] = "Vladanje";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+<h1>Vladanje</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ime Ucenika</th>
+            <th>Vladanje</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Ime</td>
+                <td>@item.Vladanje</td>
+                <td><a class="clickLink btn btn-primary" href="/NastavnikModul/RazrednikAjax/VladanjeEdit?UcenikID=@item.KorisnikID&_OdjeljenjeID=@item.OdjeljenjeID">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="Rezultat"></div>
+
+<script>
+    $(".clickLink").click(function (e) {
+        e.preventDefault();
+
+        var url = $(this).attr("href");
+
+        $.get(url, function (data) {
+            $("#Rezultat").html(data);
+        });
+    });
+</script>

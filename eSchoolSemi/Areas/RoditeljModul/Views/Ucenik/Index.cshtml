@@ -1,0 +1,47 @@
+﻿@model UcenikIndexVM
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Učenici: </h2>
+
+
+<table class="table table-bordered">
+    <tr>
+        <td><b>Ime i prezime</b></td>
+        <td><b>Datum rodjenja</b></td>
+        <td><b>Telefon</b></td>
+        <td><b>Email</b></td>
+        <td><b>Vladanje</b></td>
+        <td><b>Pregled</b></td>
+    </tr>
+    @foreach (var x in Model.Rows)
+    {
+        <tr>
+            <td>@x.ImePrezime</td>
+            <td>@x.DatumRodjenja</td>
+            <td>@x.Telefon</td>
+            <td>@x.Email</td>
+            <td>@x.Vladanje</td>
+            <td>
+                <button class="btn btn-success" onclick="Pozovi('/RoditeljModul/Ucenik/Uspjeh?UcenikID=@x.UcenikID')">Uspjeh</button>
+                <button class="btn btn-success" onclick="Pozovi('/RoditeljModul/Ucenik/Raspored?UcenikID=@x.UcenikID')">Raspored</button>
+            </td>
+
+        </tr>
+        
+
+    }
+
+</table>
+<div id="UspjehId"></div>
+<script>
+
+    function Pozovi(url) {
+        $.get(url, function (rez) {
+            $("#UspjehId").html(rez);
+        })
+    }
+
+
+</script>

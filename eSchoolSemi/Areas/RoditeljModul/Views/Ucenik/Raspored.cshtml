@@ -1,0 +1,54 @@
+﻿@model UcenikRasporedVM
+@{
+    ViewData["Title"] = "Raspored";
+}
+
+<h2>Raspored za odjeljenje @Model.Odjeljenje</h2>
+
+
+<table class="table table-bordered" >
+    <tr>
+
+
+        @foreach (var d in Model.Dan)
+        {
+            @if (d.Text == "Ponedeljak")
+            {
+                <td><b>Pocetak casa</b></td>
+
+            }
+            <td><b>@d.Text</b></td>
+        }
+    </tr>
+
+
+        @foreach (var p in Model.PocetankCasa)
+        {
+            
+            <tr>
+                    @foreach (var x in Model.Rows)
+                    {
+                        @if (x.PocetakCasaID == p.Value)
+                        {
+
+
+                            @if (x.Dan == "Ponedeljak")
+                            {
+                                <td><b>@x.PocetakCasa</b></td>
+                            }
+
+                            <td>@x.Predmet</td>}
+                    }
+            </tr>
+         }
+
+
+
+
+
+    
+
+
+
+    </table>
+

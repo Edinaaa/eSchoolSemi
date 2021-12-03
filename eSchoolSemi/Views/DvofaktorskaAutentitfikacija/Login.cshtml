@@ -1,0 +1,62 @@
+﻿
+
+@model eSchoolSemi.Web.ViewModels.LoginWithTokenVM;
+@{
+    ViewData["Title"] = "Login";
+    string error_poruka = (string)TempData["error_poruka"];
+    Layout = "_LayoutAnonim";
+}
+
+
+
+<div class="modal-dialog">
+    <div class="col-sm-9 main-section">
+        <div class="modal-content">
+
+            <div class="text-center col-12 user-img">
+                <img src="~/images/School icon.png">
+            </div>
+            @if (error_poruka != null)
+            {
+                <br />
+                <div class="text-danger text-center">
+                    @error_poruka
+                </div>
+            }
+            <div class="col-12 form-input">
+                <form action="LoginWithToken">
+                    <div class="form-group has-feedback">
+                        <label class="control-label">Username: </label>
+
+
+                        <input type="text" class="form-control" name="username" value="@Model.username" />
+                        
+                      
+
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label">Password: </label>
+
+                        <input type="password" class="form-control"  name="password" value="@Model.password" />
+                       
+
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label">Token: </label>
+
+                        <input type="text" class="form-control" name="Token" placeholder="Unesite token"/>
+                       
+
+                    </div>
+
+
+                    <button type="submit" class="btn btn-success col-sm-offset-5">Login</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+

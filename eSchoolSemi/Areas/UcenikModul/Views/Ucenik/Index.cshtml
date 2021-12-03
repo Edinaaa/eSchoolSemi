@@ -1,0 +1,36 @@
+﻿@model UcenikIndexVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/UcenikModul/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lični podatci</h2>
+
+<table class="table table-bordered">
+
+    <tr>
+        <td><b>Ime i prezime</b></td>
+        <td>@Model.ImePrezime</td>
+    </tr>
+    <tr>
+        <td><b>Username</b></td>
+        <td>@Model.Username</td>
+    </tr>
+    <tr>
+        <td><b>Password</b></td>
+        <td>@Model.Password</td>
+    </tr>
+    <tr>
+        <td><b>Telefon</b></td>
+        <td>@Model.Telefon</td>
+    </tr>
+    <tr>
+        <td><b>Email</b></td>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <td><b>Datum rodenja</b></td>
+        <td>@Model.DatumRodenja</td>
+    </tr>
+</table>
+<a class="btn btn-primary" href="/UcenikModul/Ucenik/Uredi?UcenikID=@Model.UcenikID">Uredi</a>

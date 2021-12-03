@@ -1,0 +1,57 @@
+﻿@model DodajObavjestVM
+@{
+    ViewData["Title"] = "DodajObavjest";
+}
+
+<link href="~/jquery-te-1.4.0.css" rel="stylesheet" />
+<script src="~/jquery-te-1.4.0.min.js"></script>
+
+<h2>DodajObavjest</h2>
+
+<form asp-action="Snimi" method="post">
+
+    <div class="row">
+        <div class="form-group col-md-6">
+
+            <label asp-for="razredID">Za koga</label>
+            <select asp-for="razredID" asp-items="@Model.Razred" class="form-control">
+                <option value=""></option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="TipObavjestiID">Tip obavjesti</label>
+                <select asp-for="TipObavjestiID" asp-items="Model.TipObavjesti" class="form-control">
+                    
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label asp-for="Naslov">Naslov</label>
+            <input asp-for="Naslov" class="form-control" type="text" />
+
+        </div>
+
+
+        <div class="form-group col-md-12">
+            <label asp-for="Sadrzaj">Sadrzaj</label>
+            <textarea id="pisaniText" class="form-control"  asp-for="Sadrzaj" rows="20"></textarea>
+            <br />
+            <button type="submit" class="btn btn-danger">Snimi</button>
+        </div>
+    </div>
+
+
+</form>
+
+<script>
+    $(document).ready(function () {
+
+        $("#pisaniText").jqte();
+     });
+
+</script>

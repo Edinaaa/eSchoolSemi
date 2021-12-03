@@ -1,0 +1,140 @@
+﻿@model eSchoolSemi.Web.Helper.PaginatedList<Nastavnik>
+
+<div class="container-fluid" style="margin:15px 0px">
+    <div class="row">
+
+        <div class="col-sm-2">
+
+            <button type="button" title="Dodaj" class="btn btn-info" data-toggle="ajax-modal-test3" data-target="#dodajRoditelj"
+                    data-url="@Url.Action("DodajNastavnika","Nastavnik")">
+                Dodaj nastavnika!
+            </button>
+        </div>
+
+
+    </div>
+</div> 
+<div class="container-fluid">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th><button id="orderDugme" class="btn btn-link">Ime i prezime</button></th>
+                <th>Titula</th>
+                <th>Zvanje</th>
+                <th>Datum zaposljenja</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Akcija</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.Ime @s.Prezime</td>
+                    <td>@s.Titula</td>
+                    <td>@s.Zvanje</td>
+                    <td>@s.DatumZaposlenja.ToShortDateString()</td>
+                    <td>@s.KorisnickoIme</td>
+                    <td>@s.Lozinka</td>
+                    <td>
+                        <button class="btn btn-info" data-toggle="obrisNastavnik"
+                                data-url="@Url.Action("Obrisi","Nastavnik",new {NastavnikID=s.KorisnikId })">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <button type="button" title="Detalji" class="btn btn-info" data-toggle="ajax-modal-test3" data-target="#urediNastavnika" data-url="@Url.Action("Uredi","Nastavnik",new {id=s.KorisnikId })">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </button>
+
+                        <button type="button" title="Detalji" class="btn btn-info" data-toggle="ajax-modal-test3" data-target="#detaljiNastavnika" data-url="@Url.Action("Detalji","Nastavnik",new {nastavnikID=s.KorisnikId })">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                        </button>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<button id="Nazad" class="btn btn-default @prevDisabled" @prevDisabled>
+    Previous
+</button>
+<button id="Naprijed"
+        class="btn btn-default @nextDisabled" @nextDisabled>
+    Next
+</button>
+
+<script>
+    $("#Nazad").click(function (parametars) {
+
+        var searchString ="";
+        var Url ="/AdministratorModul/nastavnik/tabelaNastavnici/?search=" +searchString+"&&page=@(Model.PageIndex-1)";
+        $.ajax({
+            url: Url, async: false, success: function (result) {
+                $('#tabelaN').html(result);
+            }
+        });
+    });
+
+
+    $("#Naprijed").click(function (parametars) {
+
+        var searchString ="";
+        var Url ="/AdministratorModul/nastavnik/tabelaNastavnici/?search=" +searchString+"&&page=@(Model.PageIndex+1)";
+        $.ajax({
+            url: Url, async: false, success: function (result) {
+                $('#tabelaN').html(result);
+            }
+        });
+    });
+
+    $('button[data-toggle="obrisNastavnik"]').click(function (event) {
+
+        var provjera = confirm("Brisanjem nastavnika uzrokovat ce promjenu nekih podataka na sistemu.Da li zelite obrisati?")
+        var url = $(this).attr('data-url');
+
+        if (provjera) { 
+        $.ajax({
+            url: url, async: false, success: function (result) {
+                $('#tabelaN').html(result);
+            }
+            });
+        }
+    });
+
+    $(function () {
+
+        $('button[data-toggle="ajax-modal-test3"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalNastavnik');
+
+            $.ajax({
+                url: url, async: false, success: function (result) {
+                    placeholder.html(result);
+                    placeholder.find('.modal').modal('show');
+                }
+            });
+
+        });
+    });
+
+    $("#orderDugme").click(function (parametars) {
+
+        var searchString = $("#nastavnikValue").val();
+        var Url="/AdministratorModul/Nastavnik/tabelaNastavnici/?search=" +searchString+"&&sortOrder="+"@ViewData["NameSortParm"]"+"&&page=@(Model.PageIndex)";
+
+        $.ajax({
+            url: Url, async: false, success: function (result) {
+                $('#tabelaN').html(result);
+            }
+        });
+
+
+    });
+</script>

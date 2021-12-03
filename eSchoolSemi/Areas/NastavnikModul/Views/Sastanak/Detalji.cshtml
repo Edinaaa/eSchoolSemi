@@ -1,0 +1,19 @@
+﻿@model eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.SastanakDodajVM
+@{
+    ViewData["Title"] = "Detalji";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>@Model.Naziv</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12" style="border:solid thin; width:100%; height:200px">
+            <text>@Html.Raw(Model.Opis)</text>
+        </div>
+    </div>
+
+</div>

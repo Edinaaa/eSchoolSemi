@@ -1,0 +1,153 @@
+﻿@model NastavnikGradViewModel
+@{
+    ViewData["Title"] = "Uredi";
+}
+
+
+
+
+<div class="modal fade" id="urediNastavnika" tabindex="-1" role="dialog" aria-labelledby="urediNastavnikaLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="urediNastavnikaLabel">Uredi nastavnika!</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form asp-action="UrediNastavnika" method="post" class="col-sm-offset-2 col-sm-8">
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+
+                        <div class="row">
+                            <div class="form-group">
+                                <input asp-for="NastavniID" type="text" readonly style="display:none" class="form-control" value="@Model.NastavniID" />
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Titula">Titual:</label>
+                                <input asp-for="Titula" class="form-control" value="@Model.Titula" />
+                                <span asp-validation-for="Titula" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Ime">Ime:</label>
+                                <input asp-for="Ime" type="text" class="form-control" value="@Model.Ime" />
+                                <span asp-validation-for="Ime" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Prezime">Prezime:</label>
+                                <input asp-for="Prezime" type="text" class="form-control" value="@Model.Prezime" />
+                                <span asp-validation-for="Prezime" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Email">Email:</label>
+                                <input asp-for="Email" type="text" class="form-control" value="@Model.Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Telefon">Telefon:</label>
+                                <input asp-for="Telefon" class="form-control" value="@Model.Telefon" />
+                                <span asp-validation-for="Telefon" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="DatumRodjenja">Datum rodjenja:</label>
+                                @Html.TextBoxFor(model => model.DatumRodjenja, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @value = Model.DatumRodjenja })
+                                <span asp-validation-for="DatumRodjenja" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="DatumZaposljenja">Datum zaposljenja:</label>
+                                @Html.TextBoxFor(model => model.DatumZaposljenja, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @value = Model.DatumZaposljenja })
+                                <span asp-validation-for="DatumZaposljenja" class="text-danger"></span>
+                            </div>
+
+                            <label asp-for="GradID">Grad:</label>
+                            <select asp-for="GradID" class="form-control">
+                                @foreach (var o in Model.Gradovi)
+        {
+
+                        <option value="@o.Value">@o.Text</option>
+}
+                            </select>
+
+
+
+
+                            <div class="form-group">
+                                <label asp-for="Zvanje">Zvanje:</label>
+                                <input asp-for="Zvanje" class="form-control" value=@Model.Zvanje />
+                                <span asp-validation-for="Zvanje" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Username"></label>
+                                <input asp-for="Username" class="form-control" value="@Model.Username" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password"></label>
+                                <input asp-for="Password" class="form-control" value="@Model.Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+     $(function () {
+
+            $('button[data-save="modal"]').click(function (event) {
+
+                event.preventDefault();
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr("action");
+
+                var dataToSend = new FormData(form.get(0));
+
+                $.ajax({ url: actionUrl, method: 'post', data: dataToSend, processData: false, contentType: false }).
+                    done(function (data) {
+                        var newBody = $('.modal-body', data);
+                        $("#urediNastavnika").find('.modal-body').replaceWith(newBody);
+
+                        if (newBody.find('[name="IsValid"]').val()!="False") {
+
+                            $('.modal').modal('hide');
+
+                            $.ajax({
+                                 url: "@Url.Action("tabelaNastavnici", "Nastavnik")", success: function (result) {
+                                     $("#tabelaN").html(result);
+                                    }
+                                 });
+                        }
+
+                    });
+
+
+
+
+            });
+
+        });
+</script>

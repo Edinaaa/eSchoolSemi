@@ -1,0 +1,36 @@
+﻿@{
+
+    string error_poruka = (string)ViewData["error_poruka"];
+}
+
+
+
+<h1>Hello world!!!, again</h1>
+<h3>Prvo dodaj nastavni plan program->pa predmete->pa odjeljenje koje koristi taj NPP->pa angagzuj nastavnika na tome planu i predmetu</h3>
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+        Dodaj
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+        <li role="presentation"><a role="menuitem" asp-area="AdministratorModul" asp-controller="Roditelj" asp-action="DodajRoditelja">Roditelj</a></li>
+        <li role="presentation"><a role="menuitem" asp-area="AdministratorModul" asp-controller="Nastavnik" asp-action="DodajNastavnika">Nastavnik</a></li>
+        <li role="presentation"><a role="menuitem" asp-area="AdministratorModul" asp-controller="Ucenik" asp-action="DodajUcenika">Ucenik</a></li>
+    </ul>
+
+
+    <div>
+        <label>Country Search</label>
+        <input class="form-control" id="searchInput" />
+    </div>
+
+    
+
+    @if (error_poruka != null)
+    {
+        <br />
+        <div class="alert alert-danger">
+            @error_poruka
+        </div>
+    }
+</div>

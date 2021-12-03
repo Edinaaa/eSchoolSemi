@@ -1,0 +1,16 @@
+﻿@model TipObavijesti
+@{
+    ViewData["Title"] = "DodajTipObavjesti";
+}
+
+<h2>DodajTipObavjesti</h2>
+
+<form asp-action="SnimiObavjest" method="post">
+
+    <div class="form-group">
+        <label asp-for="Tip"></label>
+        <input asp-for="Tip" type="text" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-danger">Snimi</button>
+</form>

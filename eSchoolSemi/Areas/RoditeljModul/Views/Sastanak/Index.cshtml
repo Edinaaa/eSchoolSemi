@@ -1,0 +1,30 @@
+﻿@model SastanakIndexVm
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/RoditeljModul/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@foreach (var x in Model.Ucenici)
+{
+    <h3>Sastanci za @x.UcenikIme : </h3>
+    @foreach (var z in x.Rows)
+    {
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <h2><a href="/RoditeljModul/Sastanak/Detalji?SastanakId=@z.SastanakId"><span class="glyphicon glyphicon-list-alt"></span> @z.Naziv   @z.SastanakTip.ToLower()</a></h2>
+                    <small><i>Napisao/la @z.Organizator datuma @z.DatumObjave</i></small>
+                    <footer style="border-top:solid thin"></footer>
+
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+
+} <a href="/RoditeljModul/Sastanak/Dodaj?RoditeljId=@Model.RoditeljId" class="btn btn-primary">Novi Sastanak</a>

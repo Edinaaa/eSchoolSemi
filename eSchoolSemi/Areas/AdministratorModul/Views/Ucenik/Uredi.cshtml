@@ -1,0 +1,162 @@
+﻿@model UcenikUrediVM
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+
+<div class="modal fade" id="urediUcenik" tabindex="-1" role="dialog" aria-labelledby="urediUcenikLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="urediUcenikaLabel">Uredi ucenika</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form asp-action="UrediUcenika" method="post" class="col-sm-offset-2 col-sm-8" enctype="multipart/form-data">
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                        <div class="row">
+                            <div class="form-group">
+                                <input asp-for="UcenikID" type="text" style="display:none" readonly class="form-control" value="@Model.UcenikID" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Ime"></label>
+                                <input asp-for="Ime" type="text" class="form-control" value="@Model.Ime" />
+                                <span asp-validation-for="Ime" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Prezime"></label>
+                                <input asp-for="Prezime" type="text" class="form-control" value="@Model.Prezime" />
+                                <span asp-validation-for="Prezime" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" type="text" class="form-control" value="@Model.Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Telefon"></label>
+                                <input asp-for="Telefon" class="form-control" value="@Model.Telefon" />
+                                <span asp-validation-for="Telefon" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="GradID">Grad:</label>
+                                <select asp-for="GradID" asp-items="@Model.Gradovi" class="form-control"></select>
+                            </div>
+
+                            <div class="form-group ui-front">
+
+                                <label asp-for="Roditelji">Unesite prezime i ime roditelja:</label>
+                                <input asp-for="Roditelji" type="text" class="form-control" value="@Model.Roditelji" />
+                                <span asp-validation-for="Roditelji" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label asp-for="KorinickaSlika">Zamjena korisnicke slike</label>
+                                <input asp-for="KorinickaSlika" type="file" multiple class="form-control" />
+                                <span asp-validation-for="KorinickaSlika" class="text-danger"></span>
+
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.DatumRodjenja, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @value = Model.DatumRodjenja })
+                                <span asp-validation-for="DatumRodjenja" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Username">Korisnicko Ime:</label>
+                                <input asp-for="Username" class="form-control" value="@Model.Username" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password">Lozinka:</label>
+                                <input asp-for="Password" class="form-control" value="@Model.Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+     $(function () {
+
+            $('button[data-save="modal"]').click(function (event) {
+
+                event.preventDefault();
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr("action");
+
+                var dataToSend = new FormData(form.get(0));
+
+                $.ajax({ url: actionUrl, method: 'post', data: dataToSend, processData: false, contentType: false }).
+                    done(function (data) {
+                        var newBody = $('.modal-body', data);
+                        $("#urediUcenik").find('.modal-body').replaceWith(newBody);
+
+                        if (newBody.find('[name="IsValid"]').val()!="False") {
+
+                        $('.modal').modal('hide');
+
+                        $.post("@Url.Action("_tabela", "Ucenik")", function (rezultat, status) {
+
+                        $("#test").html(rezultat);
+                         });
+                        }
+
+                    });
+
+
+
+
+            });
+
+    });
+
+
+
+    $("#Roditelji").autocomplete({
+        source: function (request, response) {
+            console.log(request.term);
+            $.ajax({
+                url: "@Url.Action("nazivRoditelja", "Ucenik")",
+                type: "POST",
+                dataType: "json",
+                data: { Prefix: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.text, value: item.text };
+                    }))
+
+                }
+            })
+        }, error: function (xhr, status, error) {
+            alert("Error");
+        },
+        minLength: 2
+    });
+
+    $("#Roditelji").autocomplete("option", "appendTo", ".eventInsForm");
+
+</script>

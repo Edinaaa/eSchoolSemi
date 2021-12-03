@@ -1,0 +1,19 @@
+﻿@model eSchoolSemi.Web.Areas.NastavnikModul.ViewModels.OdrzaniCasDodajIndexVM
+@{
+    ViewData["Title"] = "NoviCas";
+    Layout = "~/Areas/NastavnikModul/Views/Shared/_Layout.cshtml";
+}
+<h1>Novi Cas</h1>
+<form asp-action="Snimi" asp-controller="Nastavnik" method="post">
+    <input asp-for="OdjeljenjeID" value="@Model.OdjeljenjeID" hidden/>
+    <div class="form-group">
+        <label>Datum</label>
+        <input class="form-control" type="datetime" asp-for="DatumOdrzavanja" value="@Model.DatumOdrzavanja" readonly />
+    </div>
+    <div class="form-group">
+        <label>Predmet</label>
+        <select class="form-control" asp-for="PredmetID" asp-items="@Model.Predmeti"></select>
+    </div>
+    <button class="btn btn-primary" type="submit" value="Snimi">Snimi</button>
+</form>
+

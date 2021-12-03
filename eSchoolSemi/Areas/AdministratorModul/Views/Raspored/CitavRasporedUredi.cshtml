@@ -1,0 +1,96 @@
+﻿@model PregledRasporedVM
+@{
+    ViewData["Title"] = "CitavRaspored";
+}
+
+<h2>CitavRaspored</h2>
+
+
+
+<table id="rasporedTabela" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ponedeljak</th>
+            <th>Utorak</th>
+            <th>Srijeda</th>
+            <th>Cetvrtak</th>
+            <th>Petak</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < 7; i++)
+        {
+            <tr>
+                @for (int j = 0; j < 5; j++)
+                {
+                    <td>N/A</td>
+                }
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+<script>
+    function CreateTable(Predmet, Dan, Cas) {
+
+        var i = 1;
+        var j = 1;
+
+        switch (Dan) {
+
+            case "Ponedeljak":
+                j = 0;
+                break;
+            case "Utorak":
+                j = 1;
+                break;
+            case "Srijeda":
+                j = 2;
+                break;
+            case "Cetvrtak":
+                j = 3;
+                break;
+            default:
+                j = 4;
+        }
+
+        switch (Cas) {
+
+            case "7:00":
+                i = 1;
+                break;
+            case "7:50":
+                i = 2;
+                break;
+            case "8:35":
+                i = 3;
+                break;
+            case "9:35":
+                i = 4;
+                break;
+            case "10:25":
+                i = 5;
+                break;
+            case "11:15":
+                i = 6;
+                break;
+            default:
+                i = 7;
+        }
+
+
+        document.getElementById("rasporedTabela").rows[i].cells[j].innerHTML ="("+Cas+")"+" "+ Predmet;
+     };
+
+
+</script>
+
+@foreach (var item in Model.listaPredmeta)
+{
+
+    <script>CreateTable("@item.Predmet","@item.Dan","@item.PocetakCasa")</script>
+
+};

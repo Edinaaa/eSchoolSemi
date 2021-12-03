@@ -1,0 +1,139 @@
+﻿@model eSchoolSemi.Web.Helper.PaginatedList<Roditelj>
+
+<div class="container-fluid" style="margin:15px 0px">
+    <div class="row">
+
+        <div class="col-sm-2">
+
+            <button type="button" title="Dodaj" class="btn btn-info" data-toggle="ajax-modal-test2" data-target="#dodajRoditelj" data-url="@Url.Action("DodajRoditelja","Roditelj")">Dodaj roditelj!</button>
+
+        </div>
+
+
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th><button id="orderDugme" class="btn-link">Naziv</button></th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>Korisnicko Ime</th>
+                <th>Lozinka</th>
+                <th>Grad</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.Ime @s.Prezime</td>
+                    <td>@s.Email</td>
+                    <td>@s.Telefon</td>
+                    <td>@s.KorisnickoIme</td>
+                    <td>@s.Lozinka</td>
+                    <td>@s.MjestoRodenja.Naziv</td>
+                    <td>
+                        <button class="btn btn-info" data-toggle="obrisRoditelj" data-url="@Url.Action("Obrisi","Roditelj",new {RoditeljID=s.KorisnikId })"><span class="glyphicon glyphicon-trash"></span></button>
+                        <button type="button" title="Detalji" class="btn btn-info" data-toggle="ajax-modal-test2" data-target="#detaljiRoditelj" data-url="@Url.Action("Detalji","Roditelj",new {id=s.KorisnikId })">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                        </button>
+                        <button type="button" title="Uredi" class="btn btn-info" data-toggle="ajax-modal-test2" data-target="#urediRoditelj" data-url="@Url.Action("Uredi","Roditelj",new {id=s.KorisnikId })">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </button>
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<button id="Nazad" class="btn btn-default @prevDisabled" @prevDisabled>
+    Previous
+</button>
+<button id="Naprijed"
+        class="btn btn-default @nextDisabled" @nextDisabled>
+    Next
+</button>
+
+<script>
+    $(function () {
+
+        $('button[data-toggle="ajax-modal-test2"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalRoditelj');
+
+            $.ajax({
+                url: url, async: false,success: function (result) {
+                    placeholder.html(result);
+                    placeholder.find('.modal').modal('show');
+                }
+            });
+            
+        });
+    });
+
+    $('button[data-toggle="obrisRoditelj"]').click(function (event) {
+
+        var provjera = confirm("Brisanjem roditelja uzrokovat ce promjenu nekih podataka na sistemu.Da li zelite obrisati?")
+        var url = $(this).attr('data-url');
+
+        if (provjera) {
+        $.ajax({
+            url: url, async: false, success: function (result) {
+                $('#tabelaID').html(result);
+                }
+            });
+
+        }
+    });
+
+    $("#orderDugme").click(function (parametars) {
+
+        var searchString = $("#roditeljValue").val();
+        var Url="/AdministratorModul/Roditelj/tabelaRoditelji/?search=" +searchString+"&&sortOrder="+"@ViewData["NameSortParm"]"+"&&page=@(Model.PageIndex)";
+
+        $.ajax({
+            url: Url, async: false, success: function (result) {
+                $('#tabelaID').html(result);
+            }
+        });
+
+
+    });
+
+    $("#Nazad").click(function (parametars) {
+
+        var searchString = $("#roditeljValue").val();
+        var Url ="/AdministratorModul/Roditelj/tabelaRoditelji/?search ="+searchString+"&&page=@(Model.PageIndex-1)";
+        $.ajax({
+            url: Url, async: false, success: function (result) {
+                $('#tabelaID').html(result);
+            }
+        });
+    });
+
+    
+    $("#Naprijed").click(function (parametars) {
+
+        var searchString = $("#roditeljValue").val();
+        var Url = "/AdministratorModul/Roditelj/tabelaRoditelji/?search=" + searchString+"&&page=@(Model.PageIndex+1)";
+        $.ajax({
+            url: Url, async: false, success: function (result) {
+                $('#tabelaID').html(result);
+            }
+        });
+    });
+
+</script>

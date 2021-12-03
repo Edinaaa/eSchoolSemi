@@ -1,0 +1,109 @@
+﻿@model NastavniPlanIndexVM
+
+@{
+    ViewData["Title"] = "Index";
+
+
+}
+
+
+<button class="btn btn-default" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <span class="glyphicon glyphicon-filter"></span>
+</button>
+
+<div class="container-fluid" style="padding:15px">
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <select asp-for="GodinaStudijaId" asp-items="Model.GodineStudija" class="form-control" id="godinaStudija">
+                        <option value="" disabled selected>Izaberi godinu studija</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="btnPretrazi" class="btn btn-default">Pretrazi <span class="glyphicon glyphicon-search"></span></button>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<button type="button" title="Dodaj" class="btn btn-default" data-toggle="ajax-modal-test5" data-target="#dodajPlan"
+        data-url="@Url.Action("DodajNastavniPlan","NastavniPlan")" style="margin-bottom:15px">
+    Dodaj nastavni plan !
+</button>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Naziv</td>
+            <td>Akcija</td>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.Planovi)
+        {
+            <tr>
+
+                <td>@item.Naziv</td>
+                <td><a asp-action="Detalji" asp-route-nastavniPlanId="@item.NastavniPlanId" class="btn btn-default"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a data-url="@Url.Action("ObrisiNastavniPlan","NastavniPlan",new {nastavniPlanId=item.NastavniPlanId})" data-nesto="Obrisi" class="btn btn-default" ><span class="glyphicon glyphicon-trash"></span></a>
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+<div id="modalDiv"></div>
+
+<script>
+
+    $(function () {
+
+        $('button[data-toggle="ajax-modal-test5"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalDiv');
+
+            $.ajax({
+                url: url, async: false, success: function (result) {
+                    placeholder.html(result);
+                    placeholder.find('.modal').modal('show');
+                }
+            });
+
+        });
+    });
+
+    $("#btnPretrazi").click(function (parametars) {
+
+        var temp = $("#godinaStudija").val();
+
+        console.log(temp);
+        window.location = "/AdministratorModul/NastavniPlan/?id=" + temp;
+
+
+    });
+
+    $("[data-nesto='Obrisi']").click(function (parametars) {
+        var actionUrl = $(this).attr('data-url');
+        var provjera = confirm("Brisanjem odjeljenja uzrokovat ce promjenu nekih podataka na sistemu.Da li zelite obrisati?")
+        if (provjera) {
+
+            window.location = actionUrl;
+        }
+
+    });
+
+</script>

@@ -1,0 +1,35 @@
+﻿@model UcenikUspjehPredmetVM
+@{
+    ViewData["Title"] = "UspjehPredmet";
+}
+
+<h2>@Model.ImePrezime, ocjene iz predmeta @Model.Predmet</h2>
+
+<table class="table table-bordered">
+    <tr>
+
+        <td><b>Datum ocjenjivanja</b></td>
+        <td><b>Ocjena</b></td>
+
+    </tr>
+    @foreach (var x in Model.Rows)
+    {
+        <tr>
+            <td>@x.DatumOcjenjivanja</td>
+            <td>@x.Ocjena</td>
+
+
+        </tr>
+
+
+    }
+    @if (Model.Zakljucena)
+    {
+        <tr>
+
+            <td><b>Zaključena ocjena</b></td>
+            <td>@Model.Zakljucna</td>
+
+        </tr>
+    }
+</table>

@@ -1,0 +1,25 @@
+﻿ @model ObavjestiIndexVM.Row
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 page-header">
+            <h2 >@Model.Naslov</h2>
+            <small><i>Napisano @Model.DatumPostavljanja od strane @Model.Autor za razrede:@Model.ZaKoga</i></small>
+        </div>
+    </div>
+    <div class="row">
+        <br />
+        <div class="col-sm-12" style="border:solid thin; width:100%; height:200px;">
+            <br />
+            <text>@Html.Raw(Model.Sadrzaj)</text>
+        </div>
+        
+    </div>
+</div>
+
+
+
+

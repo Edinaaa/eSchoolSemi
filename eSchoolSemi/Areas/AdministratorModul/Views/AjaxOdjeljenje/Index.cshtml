@@ -1,0 +1,55 @@
+﻿@model AjaxPrikazVM
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Broj u dnevniku</th>
+            <th>Ucenik</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ucenik in Model.Ucenici)
+        {
+            <tr>
+                <td>@ucenik.BrojUDnevniku</td>
+                <td>@ucenik.ImePrezimeUcenika</td>
+                <td><button type="button" class="btn btn-primary" data-toggle="ajax-modal-test4" data-target="#add-contact" data-url="@Url.Action("DetaljiUcenik", "AjaxOdjeljenje", new { UcenikId = ucenik.UcenikID })">
+    Detalji
+</button>
+                    <button type="button" class="btn btn-primary" data-toggle="ajax-modal-test4" data-target="#promjeniOdjeljenje" data-url="@Url.Action("PromjeniOdjeljenje", "AjaxOdjeljenje", new { OdjeljenjeId =Model.OdjeljenjeID,UcenikId=ucenik.UcenikID})">
+                       Prebaci
+                    </button>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+<script>
+    $(function () {
+
+        $('button[data-toggle="ajax-modal-test4"]').click(function (event) {
+
+            var url = $(this).attr('data-url');
+            var placeholder = $('#modalPlaceholder');
+
+
+           
+
+            $.get({ url: url, async:false }).done(function (data) {
+
+            placeholder.html(data);
+            placeholder.find('.modal').modal('show');
+            });
+            });
+            });
+
+</script>

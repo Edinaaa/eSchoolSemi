@@ -1,0 +1,115 @@
+﻿@using eSchoolSemi.Data.Models
+@using eSchoolSemi.Web.Helper
+
+@{
+
+    KorisnickiNalog username = Context.GetLogiraniKorisnik();
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - eSchoolSemi</title>
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="~/css/SideBarCss.css" />
+
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+
+
+
+
+
+
+
+
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+
+
+
+
+</head>
+<body>
+    <div class="wrapper" id="nesto">
+        <!--Top navbar-->
+        <nav class="navbar navbar-inverse navbar-fixed-top navbar-left">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">E-School</a>
+                <button type="button" id="sidebarCollapse" class="btn btn-default navbar-btn" style="background-color:lightgrey">
+                    <i class="glyphicon glyphicon-th-list"></i>
+
+                </button>
+            </div>
+            <div class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="DvofaktorskaAutentitfikacija" asp-action="Logout">@(username?.Username) <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </ul>
+            </div>
+
+        </nav>
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header text-center">
+                <img src="~/images/School icon.png" height="72" width="72" class="img-circle" />
+            </div>
+
+            <ul class="list-unstyled components">
+
+                <li> <a asp-area="UcenikModul" asp-controller="Ucenik" asp-action="Index">Pocetna</a></li>
+                <li> <a asp-area="UcenikModul" asp-controller="Materijali" asp-action="Index">Nastavni materijali</a></li>
+                <li> <a asp-area="UcenikModul" asp-controller="Uspjeh" asp-action="Index">Uspjeh</a></li>
+                <li> <a asp-area="UcenikModul" asp-controller="Raspored" asp-action="Index">Raspored</a></li>
+
+                <li> <a asp-area="UcenikModul" asp-controller="Obavijest" asp-action="Index">Obavijesti</a></li>
+
+
+            </ul>
+
+
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+            <div class="container-fluid">
+
+
+                @RenderBody()
+                <hr />
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+
+
+
+</body>
+</html>

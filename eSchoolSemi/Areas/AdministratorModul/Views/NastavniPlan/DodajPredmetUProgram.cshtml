@@ -1,0 +1,121 @@
+﻿@model AnagazmanNaPredmet
+
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+
+<div class="modal fade" id="dodajPredmet" tabindex="-1" role="dialog" aria-labelledby="dodajOdljenjeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center" id="dodajOdljenjeLabel">Dodaj predmet</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form method="post" asp-action="SnimiPlanPredmet">
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+
+                        <input asp-for="NastavniPlanProgramID" value="@Model.NastavniPlanProgramID" type="hidden" class="form-control" />
+
+                        <div class="form-group col-md-8 col-md-offset-2">
+                            <label asp-for="Naziv"></label>
+                            <input asp-for="Naziv" value="@Model.Naziv" class="form-control" disabled />
+                        </div>
+
+
+                        <div class="form-group col-md-8 col-md-offset-2">
+                            <label asp-for="BrojCasova">Broj casova</label>
+                            <input asp-for="BrojCasova" type="number" value="@Model.BrojCasova" class="form-control" />
+                            <span asp-validation-for="BrojCasova" class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="form-group col-md-8 col-md-offset-2">
+                            <label asp-for="PredmetID">Predmet</label>
+                            <select asp-for="PredmetID" asp-items="@Model.predmet" class="form-control">
+                                <option selected disabled>Izaberite predmet!</option>
+                            </select>
+                            <span asp-validation-for="PredmetID" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-8 col-md-offset-2">
+                            <label asp-for="NastavnikID">Nastavnik</label>
+                            <select asp-for="NastavnikID" asp-items="@Model.nastavnik" class="form-control">
+                                <option selected disabled>Izaberite nastavnika!</option>
+                            </select>
+                            <span asp-validation-for="NastavnikID" class="text-danger"></span>
+                        </div>
+
+
+
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("Detalji", "NastavniPlan",new { nastavniPlanId=Model.NastavniPlanProgramID })">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function (parametars) {
+
+        $('button[data-save="modal"]').click(function (event) {
+
+
+            event.preventDefault();
+            var form = $(this).parents('.modal').find('form');
+            form.validate();
+            var nesto = form.valid();
+            var actionUrl = form.attr("action");
+            var url = $(this).attr('data-url');
+            var modalID = $(".modal").attr('id');
+            var ajaxID = $("div[data-table=ajaxDiv]").attr('id');
+
+
+
+
+            var dataToSend = new FormData(form.get(0));
+
+            if (nesto) {
+                $.ajax({ url: actionUrl, method: 'post', data: dataToSend, processData: false, contentType: false }).
+                    done(function (data) {
+                        var newBody = $('.modal-body', data);
+                        $("#" + modalID).find('.modal-body').replaceWith(newBody);
+
+
+
+                        if (newBody.find('[name="IsValid"]').val() !== "False") {
+
+                            $('.modal').modal('hide');
+                            window.location = url;
+
+                        }
+
+                    });
+            }
+
+
+
+
+        });
+
+    });
+</script>
+
+
+
+

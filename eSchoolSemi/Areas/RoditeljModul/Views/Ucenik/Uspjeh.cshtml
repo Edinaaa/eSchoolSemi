@@ -1,0 +1,61 @@
+﻿@model UcenikUspjehVM
+@{
+    ViewData["Title"] = "Uspjeh";
+}
+
+<h2>Uspjeh</h2>
+
+<table class="table table-bordered">
+
+    <tr>
+        <td><b>Predmet</b></td>
+        <td><b>Prosjek</b></td>
+        <td><b>BrojIzostanaka</b></td>
+        <td><b>BrojOpravdanih</b></td>
+        <td><b>BrojNeOpravdanih</b></td>
+        <td><b>Detalji</b></td>
+    </tr>
+
+
+    @foreach (var x in Model.Rows)
+    {
+    <tr>
+
+        <td>@x.Predmet</td>
+        <td>@x.Prosjek</td>
+        <td>@x.BrojIzostanaka</td>
+        <td>@x.BrojOpravdanih</td>
+        <td>@x.BrojNeOpravdanih</td>
+        <td>
+        
+            <button  class="btn btn-success" onclick="Uspjeh('/RoditeljModul/Ucenik/UspjehPredmet?PredmetID=@x.PredmetID&UcenikID=@Model.UcenikID')">Detalji</button>
+        </td>
+
+    </tr>
+        
+
+
+    }
+    <tr>
+        <td><b>Ukupno</b></td>
+        <td><b>@Model.UkupnoProsjek</b></td>
+        <td><b>@Model.UkupnoBrojIzostanaka</b></td>
+        <td><b>@Model.UkupnoBrojOpravdanih</b></td>
+        <td><b>@Model.UkupnoBrojNeOpravdanih</b></td>
+    </tr>
+
+
+
+
+</table>
+
+<script>
+
+    function Uspjeh(url) {
+        $.get(url, function (rez) {
+            $("#UspjehId").html(rez);
+        })
+    }
+
+
+</script>
